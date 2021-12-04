@@ -8,51 +8,25 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import mygame.GamePanel;
+import tiles.Tile;
+import tiles.Brick;
 import tiles.TileManager;
 
 public class Bomb {
-    private final long START_TIME_BOMB_1 = 500000000;
-    private final long START_TIME_BOMB_2 = 400000000;
-    private final long START_TIME_EXPLOSION = 300000000;
-    private final long START_TIME_EXPLOSION_1 = 200000000;
-    private final long START_TIME_EXPLOSION_2 = 100000000;
-    private final long TIME_UNTIL_EXPLOSION_ENDS = 800000000;
-    
-    private BufferedImage bomb;
-    private BufferedImage bomb_1;
-    private BufferedImage bomb_2;
-    private BufferedImage bomb_exploded;
-    private BufferedImage bomb_exploded_1;
-    private BufferedImage bomb_exploded_2;
-    private BufferedImage explosion_horizontal;
-    private BufferedImage explosion_horizontal_1;
-    private BufferedImage explosion_horizontal_2;
-    private BufferedImage explosion_vertical;
-    private BufferedImage explosion_vertical_1;
-    private BufferedImage explosion_vertical_2;
-    private BufferedImage explosion_horizontal_left_last;
-    private BufferedImage explosion_horizontal_left_last_1;
-    private BufferedImage explosion_horizontal_left_last_2;
-    private BufferedImage explosion_horizontal_right_last;
-    private BufferedImage explosion_horizontal_right_last_1;
-    private BufferedImage explosion_horizontal_right_last_2;
-    private BufferedImage explosion_vertical_top_last;
-    private BufferedImage explosion_vertical_top_last_1;
-    private BufferedImage explosion_vertical_top_last_2;
-    private BufferedImage explosion_vertical_down_last;
-    private BufferedImage explosion_vertical_down_last_1;
-    private BufferedImage explosion_vertical_down_last_2;
-    
     private TileManager tileManager;
     private boolean collision = false;
     private int x;
     private int y;
     private boolean alreadyBombed = false;
     private long explosionTime = 0;
-    private int range = 3;
+    private int range = 1;
 
     public Bomb(TileManager tileManager) {
         this.tileManager = tileManager;
+        getBombImage();
+    }
+    
+    private void getBombImage() {
         try {
             bomb = ImageIO.read(new FileInputStream("res/bomb/bomb.png"));
             bomb_1 = ImageIO.read(new FileInputStream("res/bomb/bomb_1.png"));
@@ -127,25 +101,101 @@ public class Bomb {
                 left_flame_end = explosion_horizontal_left_last_2;
                 right_flame_end = explosion_horizontal_right_last_2;
         }
+        
+        // check right tile
         for (int i = 1; i <= range; i++) {
-            if (i == range) {
-                g2.drawImage(right_flame_end, x + GamePanel.TILESIZE * i, y, 
-                        GamePanel.TILESIZE, GamePanel.TILESIZE, null);
-                g2.drawImage(left_flame_end, x - GamePanel.TILESIZE * i, y, 
-                        GamePanel.TILESIZE, GamePanel.TILESIZE, null);
-                g2.drawImage(top_flame_end, x, y - GamePanel.TILESIZE * i, 
-                        GamePanel.TILESIZE, GamePanel.TILESIZE, null);
-                g2.drawImage(bottom_flame_end, x, y + GamePanel.TILESIZE * i, 
-                        GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+            int tileX = x / GamePanel.TILESIZE + i;
+            int tileY = y / GamePanel.TILESIZE - 1;
+            if (tileManager.getTileAt(tileX, tileY) == null) {
+                break;
             } else {
-                g2.drawImage(horizontal_flame, x + GamePanel.TILESIZE * i, y, 
-                        GamePanel.TILESIZE, GamePanel.TILESIZE, null);
-                g2.drawImage(horizontal_flame, x - GamePanel.TILESIZE * i, y, 
-                        GamePanel.TILESIZE, GamePanel.TILESIZE, null);
-                g2.drawImage(vertical_flame, x, y - GamePanel.TILESIZE * i, 
-                        GamePanel.TILESIZE, GamePanel.TILESIZE, null);
-                g2.drawImage(vertical_flame, x, y + GamePanel.TILESIZE * i, 
-                        GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                Tile tile = tileManager.getTileAt(tileX, tileY);
+                if (!tile.canExplode() || number == 3) {
+                    if (tile instanceof Brick) {
+                        Brick brick = (Brick) tile;
+                        brick.setExplosionStage(number);
+                    }
+                    break;
+                } else if (i == range) {
+                    g2.drawImage(right_flame_end, x + GamePanel.TILESIZE * i, y, 
+                            GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                } else {
+                    g2.drawImage(horizontal_flame, x + GamePanel.TILESIZE * i, y, 
+                            GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                }
+            }
+        }
+        
+        // check left tile
+        for (int i = 1; i <= range; i++) {
+            int tileX = x / GamePanel.TILESIZE - i;
+            int tileY = y / GamePanel.TILESIZE - 1;
+            if (tileManager.getTileAt(tileX, tileY) == null) {
+                break;
+            } else {
+                Tile tile = tileManager.getTileAt(tileX, tileY);
+                if (!tile.canExplode() || number == 3) {
+                    if (tile instanceof Brick) {
+                        Brick brick = (Brick) tile;
+                        brick.setExplosionStage(number);
+                    }
+                    break;
+                } else if (i == range) {
+                    g2.drawImage(left_flame_end, x - GamePanel.TILESIZE * i, y, 
+                            GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                } else {
+                    g2.drawImage(horizontal_flame, x - GamePanel.TILESIZE * i, y, 
+                            GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                }
+            }
+        }
+        
+        // check above tile
+        for (int i = 1; i <= range; i++) {
+            int tileX = x / GamePanel.TILESIZE;
+            int tileY = y / GamePanel.TILESIZE - i - 1;
+            if (tileManager.getTileAt(tileX, tileY) == null) {
+                break;
+            } else {
+                Tile tile = tileManager.getTileAt(tileX, tileY);
+                if (!tile.canExplode() || number == 3) {
+                    if (tile instanceof Brick) {
+                        Brick brick = (Brick) tile;
+                        brick.setExplosionStage(number);
+                        
+                    }
+                    break;
+                } else if (i == range) {
+                    g2.drawImage(top_flame_end, x, y - GamePanel.TILESIZE * i, 
+                            GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                } else {
+                    g2.drawImage(vertical_flame, x, y - GamePanel.TILESIZE * i, 
+                            GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                }
+            }
+        }
+        
+        // check below tile
+        for (int i = 1; i <= range; i++) {
+            int tileX = x / GamePanel.TILESIZE;
+            int tileY = y / GamePanel.TILESIZE + i - 1;
+            if (tileManager.getTileAt(tileX, tileY) == null) {
+                break;
+            } else {
+                Tile tile = tileManager.getTileAt(tileX, tileY);
+                if (!tile.canExplode() || number == 3) {
+                    if (tile instanceof Brick) {
+                        Brick brick = (Brick) tileManager.getTileAt(tileX, tileY);
+                        brick.setExplosionStage(number);
+                    }
+                    break;
+                } else if (i == range) {
+                    g2.drawImage(bottom_flame_end, x, y + GamePanel.TILESIZE * i, 
+                            GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                } else {
+                    g2.drawImage(vertical_flame, x, y + GamePanel.TILESIZE * i, 
+                            GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                }
             }
         }
     }
@@ -181,6 +231,39 @@ public class Bomb {
             g2.drawImage(image, x, y, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
         } else {
             alreadyBombed = false;
+            drawExplosion(3, g2);
         }
     }
+    
+    private final long START_TIME_BOMB_1 = 500000000;
+    private final long START_TIME_BOMB_2 = 400000000;
+    private final long START_TIME_EXPLOSION = 300000000;
+    private final long START_TIME_EXPLOSION_1 = 200000000;
+    private final long START_TIME_EXPLOSION_2 = 100000000;
+    private final long TIME_UNTIL_EXPLOSION_ENDS = 800000000;
+    
+    private BufferedImage bomb;
+    private BufferedImage bomb_1;
+    private BufferedImage bomb_2;
+    private BufferedImage bomb_exploded;
+    private BufferedImage bomb_exploded_1;
+    private BufferedImage bomb_exploded_2;
+    private BufferedImage explosion_horizontal;
+    private BufferedImage explosion_horizontal_1;
+    private BufferedImage explosion_horizontal_2;
+    private BufferedImage explosion_vertical;
+    private BufferedImage explosion_vertical_1;
+    private BufferedImage explosion_vertical_2;
+    private BufferedImage explosion_horizontal_left_last;
+    private BufferedImage explosion_horizontal_left_last_1;
+    private BufferedImage explosion_horizontal_left_last_2;
+    private BufferedImage explosion_horizontal_right_last;
+    private BufferedImage explosion_horizontal_right_last_1;
+    private BufferedImage explosion_horizontal_right_last_2;
+    private BufferedImage explosion_vertical_top_last;
+    private BufferedImage explosion_vertical_top_last_1;
+    private BufferedImage explosion_vertical_top_last_2;
+    private BufferedImage explosion_vertical_down_last;
+    private BufferedImage explosion_vertical_down_last_1;
+    private BufferedImage explosion_vertical_down_last_2;
 }
