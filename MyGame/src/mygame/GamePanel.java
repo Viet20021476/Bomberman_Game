@@ -1,13 +1,12 @@
 package mygame;
 
 import Entities.Player;
-import Objects.Bomb;
-import Objects.ObjectManager;
+import bomb.Bomb;
+import bomb.BombManager;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -15,14 +14,14 @@ import tiles.TileManager;
 
 public class GamePanel extends JPanel implements Runnable {
     
-    final int originalTileSize = 16;
-    final int scale = 3;
+    private static final int ORIGINALTILESIZE = 16;
+    private static final int SCALE = 3;
+    public static final int TILESIZE = ORIGINALTILESIZE * SCALE;
     
-    public final int tileSize = originalTileSize * scale;
     final int maxScreenCol = 16;
     final int maxScreenRow = 14;
-    public final int screenWidth = tileSize * maxScreenCol;
-    public final int screenHeight = tileSize * maxScreenRow;
+    public final int screenWidth = TILESIZE * maxScreenCol;
+    public final int screenHeight = TILESIZE * maxScreenRow;
 
     //FPS
     int FPS = 60;
@@ -30,17 +29,12 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandle keyHandle = new KeyHandle();
     Thread gameThread;
     public Player player = new Player(this, keyHandle);
-    public Object[] obj = new Object[10];
-    public ObjectManager objectManager = new ObjectManager(this);
-    Bomb b1 = new Bomb();
-    Bomb b2 = new Bomb();
-    
- 
     TileManager tileManager = new TileManager(this);
     public CollisionDetect collisionDetect = new CollisionDetect(this);
+    Bomb b1 = new Bomb(this.tileManager);
     
     public void setupGame() {
-        objectManager.setObjects();
+        
     }
     
     public GamePanel() {
@@ -98,9 +92,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         tileManager.draw(g2);
         b1.draw(g2, this);
-        b2.draw(g2, this);
         player.draw(g2);
         g2.dispose();
     }
-    
 }

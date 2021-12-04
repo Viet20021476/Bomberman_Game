@@ -73,11 +73,11 @@ public class TileManager {
             for (int i = 0; i < 13; i++) {
                 for (int j = 0; j < 16; j++) {
                     if (mapTile[i][j] == '#') {
-                        g2.drawImage(tile_list[2].image, m, n, gamePanel.tileSize, gamePanel.tileSize, null);
+                        g2.drawImage(tile_list[2].image, m, n, gamePanel.TILESIZE, gamePanel.TILESIZE, null);
                     } else if (mapTile[i][j] == ' ') {
-                        g2.drawImage(tile_list[0].image, m, n, gamePanel.tileSize, gamePanel.tileSize, null);
+                        g2.drawImage(tile_list[0].image, m, n, gamePanel.TILESIZE, gamePanel.TILESIZE, null);
                     } else if (mapTile[i][j] == '*') {
-                        g2.drawImage(tile_list[1].image, m, n, gamePanel.tileSize, gamePanel.tileSize, null);
+                        g2.drawImage(tile_list[1].image, m, n, gamePanel.TILESIZE, gamePanel.TILESIZE, null);
                     }
                     m += 48;
                 }

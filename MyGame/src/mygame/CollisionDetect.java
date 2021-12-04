@@ -16,17 +16,17 @@ public class CollisionDetect {
         int topY = entity.y + entity.solidArea.y;
         int bottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
 
-        int leftCol = leftX / gamePanel.tileSize;
-        int rightCol = rightX / gamePanel.tileSize;
-        int topRow = (topY + 20) / gamePanel.tileSize;
-        int bottomRow = (bottomY - 20) / gamePanel.tileSize;
+        int leftCol = leftX / gamePanel.TILESIZE;
+        int rightCol = rightX / gamePanel.TILESIZE;
+        int topRow = (topY + 20) / gamePanel.TILESIZE;
+        int bottomRow = (bottomY - 20) / gamePanel.TILESIZE;
 
         char tile1;
         char tile2;
 
         switch (entity.direction) {
             case "up":
-                topRow = (topY - entity.speed) / gamePanel.tileSize;
+                topRow = (topY - entity.speed) / gamePanel.TILESIZE;
                 tile1 = gamePanel.tileManager.mapTile[topRow - 1][leftCol];
                 tile2 = gamePanel.tileManager.mapTile[topRow - 1][rightCol];
                 if (tile1 == '#' || tile1 == '*' || tile2 == '#' || tile2 == '*') {
@@ -34,7 +34,7 @@ public class CollisionDetect {
                 }
                 break;
             case "down":
-                bottomRow = (bottomY + entity.speed - 10) / gamePanel.tileSize;
+                bottomRow = (bottomY + entity.speed - 10) / gamePanel.TILESIZE;
                 tile1 = gamePanel.tileManager.mapTile[bottomRow - 1][leftCol];
                 tile2 = gamePanel.tileManager.mapTile[bottomRow - 1][rightCol];
                 if (tile1 == '#' || tile1 == '*' || tile2 == '#' || tile2 == '*') {
@@ -42,7 +42,7 @@ public class CollisionDetect {
                 }
                 break;
             case "left":
-                leftCol = (leftX - entity.speed) / gamePanel.tileSize;
+                leftCol = (leftX - entity.speed) / gamePanel.TILESIZE;
                 tile1 = gamePanel.tileManager.mapTile[topRow - 1][leftCol];
                 tile2 = gamePanel.tileManager.mapTile[bottomRow - 1][leftCol];
                 if (tile1 == '#' || tile1 == '*' || tile2 == '#' || tile2 == '*') {
@@ -50,7 +50,7 @@ public class CollisionDetect {
                 }
                 break;
             case "right":
-                rightCol = (rightX + entity.speed) / gamePanel.tileSize;
+                rightCol = (rightX + entity.speed) / gamePanel.TILESIZE;
                 tile1 = gamePanel.tileManager.mapTile[topRow - 1][rightCol];
                 tile2 = gamePanel.tileManager.mapTile[bottomRow - 1][rightCol];
                 if (tile1 == '#' || tile1 == '*' || tile2 == '#' || tile2 == '*') {

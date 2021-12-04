@@ -3,14 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Admin/OneDrive/Documents/NetBeansProjects/MyGame/src/tiles/TileManager.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Documents/NetBeansProjects/MyGame/src/Objects/Bomb.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Documents/NetBeansProjects/MyGame/src/Objects/Object.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Documents/NetBeansProjects/MyGame/src/mygame/GamePanel.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Documents/NetBeansProjects/MyGame/src/tiles/Tile.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Documents/NetBeansProjects/MyGame/src/Entities/Player.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Documents/NetBeansProjects/MyGame/src/mygame/CollisionDetect.java</file>
-            <file>file:/C:/Users/Admin/OneDrive/Documents/NetBeansProjects/MyGame/src/mygame/KeyHandle.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/tiles/Tile.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Entities/Entity.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/tiles/TileManager.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/mygame/KeyHandle.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/mygame/GamePanel.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Objects/ObjectManager.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/mygame/CollisionDetect.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Entities/Player.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Objects/Bomb.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/mygame/MyGame.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Objects/Object.java</file>
         </group>
     </open-files>
 </project-private>

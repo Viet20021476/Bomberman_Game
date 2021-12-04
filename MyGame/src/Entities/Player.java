@@ -211,7 +211,7 @@ public class Player extends Entity {
             default -> {
             }
         }
-        g2.drawImage(bufferedImage, x, y, gamePanel.tileSize, gamePanel.tileSize, null);
+        g2.drawImage(bufferedImage, x, y, gamePanel.TILESIZE, gamePanel.TILESIZE, null);
     }
 
 }
