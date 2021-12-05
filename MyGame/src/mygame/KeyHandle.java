@@ -2,6 +2,7 @@ package mygame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import bomb.BombManager;
 
 public class KeyHandle implements KeyListener {
 
@@ -10,6 +11,13 @@ public class KeyHandle implements KeyListener {
     public boolean leftPressed;
     public boolean rightPressed;
     public boolean bombed;
+    
+    private GamePanel gamePanel;
+    
+    public KeyHandle(GamePanel gamePanel) {
+        super();
+        this.gamePanel = gamePanel;
+    }
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -32,7 +40,7 @@ public class KeyHandle implements KeyListener {
             rightPressed = true;
         }
         if (code == KeyEvent.VK_J) {
-            bombed = true;
+            gamePanel.getBombManager().addBomb();
         }
     }
 
@@ -51,10 +59,6 @@ public class KeyHandle implements KeyListener {
         }
         if (code == KeyEvent.VK_D) {
             rightPressed = false;
-        }
-
-        if (code == KeyEvent.VK_J) {
-            bombed = false;
         }
     }
 

@@ -12,7 +12,7 @@ public class BombManager {
     
     private GamePanel gamePanel;
     private Queue<Bomb> bombArray = new ArrayDeque<>();
-    private int bombCount = 2;
+    private int bombCount = 1;
     private int range = 1;
 
     public BombManager(GamePanel gamePanel) {
@@ -33,15 +33,18 @@ public class BombManager {
         return coord / GamePanel.TILESIZE * GamePanel.TILESIZE;
     }
     
-    public void draw(Graphics2D g2, GamePanel gamePanel) {
-        for (Bomb bomb: bombArray) {
-            bomb.draw(g2, gamePanel);
-        }
-        if (gamePanel.keyHandle.bombed && bombArray.size() < bombCount) {
+    public void addBomb() {
+        if (bombArray.size() < bombCount) {
             int x = fitTilePosition(gamePanel.getPlayer().getX() + 5);
             int y = fitTilePosition(gamePanel.getPlayer().getY() + 5);
             bombArray.add(new Bomb(gamePanel.getTileManager(), this, x, y));
             System.out.println("created");
+        }
+    }
+    
+    public void draw(Graphics2D g2, GamePanel gamePanel) {
+        for (Bomb bomb: bombArray) {
+            bomb.draw(g2, gamePanel);
         }
         try {
             if (bombArray.peek().isExpired()) {

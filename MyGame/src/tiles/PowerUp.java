@@ -14,8 +14,8 @@ public abstract class PowerUp implements Tile {
         return false;
     }
     
-    public void detectPlayer(Player player) {
-        
+    public void detectPlayer(GamePanel gamePanel) {
+        applyPower(gamePanel);
     }
     
     public abstract void applyPower(GamePanel gamePanel);
