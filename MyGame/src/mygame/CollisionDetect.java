@@ -12,10 +12,10 @@ public class CollisionDetect {
     }
 
     public void checkTile(Entity entity) {
-        int leftX = entity.x + entity.solidArea.x - 5;
-        int rightX = entity.x + entity.solidArea.x + entity.solidArea.width - 10;
-        int topY = entity.y + entity.solidArea.y;
-        int bottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
+        int leftX = entity.getX() + entity.getSolidArea().x - 5;
+        int rightX = entity.getX() + entity.getSolidArea().x + entity.getSolidArea().width - 10;
+        int topY = entity.getY() + entity.getSolidArea().y;
+        int bottomY = entity.getY() + entity.getSolidArea().y + entity.getSolidArea().height;
 
         int leftCol = leftX / gamePanel.TILESIZE;
         int rightCol = rightX / gamePanel.TILESIZE;
@@ -57,7 +57,7 @@ public class CollisionDetect {
                 if (tile1.isCollision() || tile2.isCollision()) {
                     entity.collisionOn = true;
                 }
-                if (entity.x + entity.solidArea.width + entity.speed == gamePanel.screenWidth) {
+                if (entity.getX() + entity.getSolidArea().width + entity.speed == gamePanel.screenWidth) {
                     entity.collisionOn = true;
                 }
                 break;

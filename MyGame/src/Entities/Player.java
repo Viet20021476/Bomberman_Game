@@ -123,5 +123,4 @@ public class Player extends Entity {
         }
         g2.drawImage(bufferedImage, x, y, gamePanel.TILESIZE, gamePanel.TILESIZE, null);
     }
-
 }

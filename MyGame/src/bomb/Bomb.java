@@ -11,6 +11,7 @@ import mygame.GamePanel;
 import tiles.Tile;
 import tiles.Brick;
 import tiles.TileManager;
+import Entities.Entity;
 
 public class Bomb {
     private TileManager tileManager;
@@ -203,8 +204,8 @@ public class Bomb {
     public void draw(Graphics2D g2, GamePanel gamePanel) {
         BufferedImage image;
         if (gamePanel.keyHandle.bombed == true && !alreadyBombed) {
-            x = fitTilePosition(gamePanel.player.x + 5);
-            y = fitTilePosition(gamePanel.player.y + 10);
+            x = fitTilePosition(gamePanel.player.getX() + 5);
+            y = fitTilePosition(gamePanel.player.getY() + 10);
             image = bomb;
             g2.drawImage(image, x, y, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
             
