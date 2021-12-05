@@ -57,7 +57,7 @@ public class CollisionDetect {
                 if (tile1.isCollision() || tile2.isCollision()) {
                     entity.collisionOn = true;
                 }
-                if (entity.getX() + entity.getSolidArea().width + entity.getSpeed() == gamePanel.screenWidth) {
+                if (entity.getX() + entity.getSolidArea().width + entity.getSpeed() == gamePanel.newScreenWidth) {
                     entity.collisionOn = true;
                 }
                 break;
