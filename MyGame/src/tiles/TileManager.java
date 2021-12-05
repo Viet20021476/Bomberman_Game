@@ -35,6 +35,9 @@ public class TileManager {
             imageList.add(ImageIO.read(new FileInputStream("res/tiles/brick_exploded.png")));
             imageList.add(ImageIO.read(new FileInputStream("res/tiles/brick_exploded1.png")));
             imageList.add(ImageIO.read(new FileInputStream("res/tiles/brick_exploded2.png")));
+            imageList.add(ImageIO.read(new FileInputStream("res/tiles/powerup_bombs.png")));
+            imageList.add(ImageIO.read(new FileInputStream("res/tiles/powerup_flames.png")));
+            imageList.add(ImageIO.read(new FileInputStream("res/tiles/powerup_speed.png")));
         } catch (IOException ex) {
             Logger.getLogger(TileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -65,7 +68,16 @@ public class TileManager {
                             tileMap[col][row] = new Wall();
                             break;
                         case '*':
-                            tileMap[col][row] = new Brick();
+                            tileMap[col][row] = new Brick("NONE");
+                            break;
+                        case 'b':
+                            tileMap[col][row] = new Brick("BOMB");
+                            break;
+                        case 'f':
+                            tileMap[col][row] = new Brick("FLAME");
+                            break;
+                        case 's':
+                            tileMap[col][row] = new Brick("SPEED");
                             break;
                         default:
                             tileMap[col][row] = new Grass();
@@ -90,11 +102,35 @@ public class TileManager {
                     g2.drawImage(imageList.get(WALL), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                 } else if (tileMap[j][i] instanceof Grass) {
                     g2.drawImage(imageList.get(GRASS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                } else if (tileMap[j][i] instanceof BombPowerUp) {
+                    g2.drawImage(imageList.get(POWERUP_BOMBS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                } else if (tileMap[j][i] instanceof FlamePowerUp) {
+                    g2.drawImage(imageList.get(POWERUP_FLAMES), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                } else if (tileMap[j][i] instanceof SpeedPowerUp) {
+                    g2.drawImage(imageList.get(POWERUP_SPEED), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                 } else if (tileMap[j][i] instanceof Brick) {
                     Brick brick = (Brick) tileMap[j][i];
-                    if (brick.getExplosionStage() + 3 == 6) {
-                        tileMap[j][i] = new Grass();
-                        g2.drawImage(imageList.get(GRASS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    if (brick.getExplosionStage() == 3) {
+                        int index;
+                        switch (brick.getPowerUp()) {
+                            case "BOMB":
+                                index = POWERUP_BOMBS;
+                                tileMap[j][i] = new BombPowerUp();
+                                break;
+                            case "FLAME":
+                                index = POWERUP_FLAMES;
+                                tileMap[j][i] = new FlamePowerUp();
+                                break;
+                            case "SPEED":
+                                index = POWERUP_SPEED;
+                                tileMap[j][i] = new SpeedPowerUp();
+                                break;
+                            default:
+                                index = GRASS;
+                                tileMap[j][i] = new Grass();
+                                break;       
+                        }
+                        g2.drawImage(imageList.get(index), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                     } else {
                         if (brick.getExplosionStage() + 3 != BRICK) {
                         g2.drawImage(imageList.get(GRASS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
@@ -124,4 +160,7 @@ public class TileManager {
     private final int BRICK_EXPLODED = 3;
     private final int BRICK_EXPLODED_1 = 4;
     private final int BRICK_EXPLODED_2 = 5;
+    private final int POWERUP_BOMBS = 6;
+    private final int POWERUP_FLAMES = 7;
+    private final int POWERUP_SPEED = 8;
 }

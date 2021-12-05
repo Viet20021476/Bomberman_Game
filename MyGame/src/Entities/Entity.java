@@ -7,7 +7,7 @@ public class Entity {
 
     protected int x;
     protected int y;
-    public int speed;
+    protected int speed;
     
     protected BufferedImage[] up = new BufferedImage[3];
     protected BufferedImage[] down = new BufferedImage[3];
@@ -32,5 +32,9 @@ public class Entity {
     
     public Rectangle getSolidArea() {
         return solidArea;
+    }
+    
+    public int getSpeed() {
+        return speed;
     }
 }

@@ -19,7 +19,7 @@ public class Player extends Entity {
     public Player(GamePanel gamePanel, KeyHandle keyHandle) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandle;
-        solidArea = new Rectangle(8, 16, 32, 32);
+        solidArea = new Rectangle(8, 12, 32, 32);
         setDefaultValues();
         getPlayerImage();
     }
@@ -121,6 +121,10 @@ public class Player extends Entity {
             default -> {
             }
         }
-        g2.drawImage(bufferedImage, x, y, gamePanel.TILESIZE, gamePanel.TILESIZE, null);
+        g2.drawImage(bufferedImage, x, y, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+    }
+    
+    public void increaseSpeed() {
+        speed++;
     }
 }

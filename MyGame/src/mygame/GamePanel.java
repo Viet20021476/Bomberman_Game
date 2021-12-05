@@ -11,7 +11,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
 import tiles.TileManager;
-import bomb.BombManager;
 
 public class GamePanel extends JPanel implements Runnable {
     
@@ -29,11 +28,10 @@ public class GamePanel extends JPanel implements Runnable {
     
     public KeyHandle keyHandle = new KeyHandle();
     Thread gameThread;
-    public Player player = new Player(this, keyHandle);
-    TileManager tileManager = new TileManager(this);
+    private Player player = new Player(this, keyHandle);
+    private TileManager tileManager = new TileManager(this);
     public CollisionDetect collisionDetect = new CollisionDetect(this);
-    //private BombManager bombManager = new BombManager(this, tileManager);
-    Bomb b1 = new Bomb(this.tileManager);
+    private BombManager bombManager = new BombManager(this);
     
     public void setupGame() {
         
@@ -93,8 +91,20 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         tileManager.draw(g2);
-        b1.draw(g2, this);
+        bombManager.draw(g2, this);
         player.draw(g2);
         g2.dispose();
+    }
+    
+    public Player getPlayer() {
+        return player;
+    }
+    
+    public TileManager getTileManager() {
+        return tileManager;
+    }
+    
+    public BombManager getBombManager() {
+        return bombManager;
     }
 }
