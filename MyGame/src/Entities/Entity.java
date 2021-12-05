@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 
 public class Entity {
 
-    protected int x;
-    protected int y;
+    public int x;
+    public int y;
     protected int speed;
     
     protected BufferedImage[] up = new BufferedImage[3];
