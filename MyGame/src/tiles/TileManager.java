@@ -14,13 +14,14 @@ import javax.imageio.ImageIO;
 import mygame.GamePanel;
 
 public class TileManager {
-    private final int WIDTH = 16;
-    private final int HEIGHT = 13;
-    
+
+    private final int WIDTH = 31;
+    private final int HEIGHT = 14;
+
     private ArrayList<BufferedImage> imageList = new ArrayList<>();
     GamePanel gamePanel;
     private Tile[][] tileMap = new Tile[WIDTH][HEIGHT];
-    
+
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         getTileImage();
@@ -91,7 +92,7 @@ public class TileManager {
             Logger.getLogger(TileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void draw(Graphics2D g2) {
         int m = 0;
         int n = GamePanel.TILESIZE;
@@ -99,9 +100,15 @@ public class TileManager {
         for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 if (tileMap[j][i] instanceof Wall) {
-                    g2.drawImage(imageList.get(WALL), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    // CAMERA
+                    int screenX = m - gamePanel.player.x + gamePanel.player.screenX;
+                    int screenY = n - gamePanel.player.y + gamePanel.player.screenY;
+                    g2.drawImage(imageList.get(WALL), screenX, screenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                 } else if (tileMap[j][i] instanceof Grass) {
-                    g2.drawImage(imageList.get(GRASS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    // CAMERA
+                    int screenX = m - gamePanel.player.x + gamePanel.player.screenX;
+                    int screenY = n - gamePanel.player.y + gamePanel.player.screenY;
+                    g2.drawImage(imageList.get(GRASS), screenX, screenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                 } else if (tileMap[j][i] instanceof BombPowerUp) {
                     g2.drawImage(imageList.get(POWERUP_BOMBS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                 } else if (tileMap[j][i] instanceof FlamePowerUp) {
@@ -128,14 +135,20 @@ public class TileManager {
                             default:
                                 index = GRASS;
                                 tileMap[j][i] = new Grass();
-                                break;       
+                                break;
                         }
-                        g2.drawImage(imageList.get(index), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                        // CAMERA
+                        int screenX = m - gamePanel.player.x + gamePanel.player.screenX;
+                        int screenY = n - gamePanel.player.y + gamePanel.player.screenY;
+                        g2.drawImage(imageList.get(index), screenX, screenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                     } else {
                         if (brick.getExplosionStage() + 3 != BRICK) {
-                        g2.drawImage(imageList.get(GRASS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
-                        } 
-                        g2.drawImage(imageList.get(brick.getExplosionStage() + 3), m, n, 
+                            g2.drawImage(imageList.get(GRASS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                        }
+                        // CAMERA
+                        int screenX = m - gamePanel.player.x + gamePanel.player.screenX;
+                        int screenY = n - gamePanel.player.y + gamePanel.player.screenY;
+                        g2.drawImage(imageList.get(brick.getExplosionStage() + 3), screenX, screenY,
                                 GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                     }
                 }
@@ -145,7 +158,7 @@ public class TileManager {
             n += GamePanel.TILESIZE;
         }
     }
-    
+
     public Tile getTileAt(int x, int y) {
         if (x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT) {
             return null;
@@ -153,7 +166,7 @@ public class TileManager {
             return tileMap[x][y];
         }
     }
-    
+
     private final int GRASS = 0;
     private final int WALL = 1;
     private final int BRICK = 2;
