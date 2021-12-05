@@ -22,13 +22,21 @@ public class GamePanel extends JPanel implements Runnable {
     final int maxScreenRow = 14;
     public final int screenWidth = TILESIZE * maxScreenCol;
     public final int screenHeight = TILESIZE * maxScreenRow;
+    
+    // LARGE MAP SETTINGS
+    public final int maxMapCol = 31;
+    public final int maxMapRow = 14;
+    public final int mapWidth = TILESIZE * maxMapCol;
+    public final int mapHeight = TILESIZE * maxMapRow;
+    public final int newScreenWidth = TILESIZE * maxMapCol;
+    public final int newScreenHeight = TILESIZE * maxMapRow;
 
     //FPS
     int FPS = 60;
     
     public KeyHandle keyHandle = new KeyHandle(this);
     Thread gameThread;
-    private Player player = new Player(this, keyHandle);
+    public Player player = new Player(this, keyHandle);
     private TileManager tileManager = new TileManager(this);
     public CollisionDetect collisionDetect = new CollisionDetect(this);
     private BombManager bombManager = new BombManager(this);
