@@ -33,35 +33,21 @@ public class Player extends Entity {
 
     public void getPlayerImage() {
         try {
-            up1 = ImageIO.read(new FileInputStream("res/player/up_1.png"));
-            up2 = ImageIO.read(new FileInputStream("res/player/up_2.png"));
-            up3 = ImageIO.read(new FileInputStream("res/player/up_3.png"));
-            up4 = ImageIO.read(new FileInputStream("res/player/up_4.png"));
-            up5 = ImageIO.read(new FileInputStream("res/player/up_5.png"));
-            up6 = ImageIO.read(new FileInputStream("res/player/up_6.png"));
-            up7 = ImageIO.read(new FileInputStream("res/player/up_7.png"));
-            down1 = ImageIO.read(new FileInputStream("res/player/down_1.png"));
-            down2 = ImageIO.read(new FileInputStream("res/player/down_2.png"));
-            down3 = ImageIO.read(new FileInputStream("res/player/down_3.png"));
-            down4 = ImageIO.read(new FileInputStream("res/player/down_4.png"));
-            down5 = ImageIO.read(new FileInputStream("res/player/down_5.png"));
-            down6 = ImageIO.read(new FileInputStream("res/player/down_6.png"));
-            down7 = ImageIO.read(new FileInputStream("res/player/down_7.png"));
-            left1 = ImageIO.read(new FileInputStream("res/player/left_1.png"));
-            left2 = ImageIO.read(new FileInputStream("res/player/left_2.png"));
-            left3 = ImageIO.read(new FileInputStream("res/player/left_3.png"));
-            left4 = ImageIO.read(new FileInputStream("res/player/left_4.png"));
-            left5 = ImageIO.read(new FileInputStream("res/player/left_5.png"));
-            left6 = ImageIO.read(new FileInputStream("res/player/left_6.png"));
-            left7 = ImageIO.read(new FileInputStream("res/player/left_7.png"));
-            right1 = ImageIO.read(new FileInputStream("res/player/right_1.png"));
-            right2 = ImageIO.read(new FileInputStream("res/player/right_2.png"));
-            right3 = ImageIO.read(new FileInputStream("res/player/right_3.png"));
-            right4 = ImageIO.read(new FileInputStream("res/player/right_4.png"));
-            right5 = ImageIO.read(new FileInputStream("res/player/right_5.png"));
-            right6 = ImageIO.read(new FileInputStream("res/player/right_6.png"));
-            right7 = ImageIO.read(new FileInputStream("res/player/right_7.png"));
-
+            up[0] = ImageIO.read(new FileInputStream("res/player/player_up.png"));
+            up[1] = ImageIO.read(new FileInputStream("res/player/player_up1.png"));
+            up[2] = ImageIO.read(new FileInputStream("res/player/player_up2.png"));
+            down[0] = ImageIO.read(new FileInputStream("res/player/player_down.png"));
+            down[1] = ImageIO.read(new FileInputStream("res/player/player_down1.png"));
+            down[2] = ImageIO.read(new FileInputStream("res/player/player_down2.png"));
+            left[0] = ImageIO.read(new FileInputStream("res/player/player_left.png"));
+            left[1] = ImageIO.read(new FileInputStream("res/player/player_left1.png"));
+            left[2] = ImageIO.read(new FileInputStream("res/player/player_left2.png"));
+            right[0] = ImageIO.read(new FileInputStream("res/player/player_right.png"));
+            right[1] = ImageIO.read(new FileInputStream("res/player/player_right1.png"));
+            right[2] = ImageIO.read(new FileInputStream("res/player/player_right2.png"));
+            dead[0] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
+            dead[1] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
+            dead[2] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -104,20 +90,12 @@ public class Player extends Entity {
 
             spriteCounter++;
             if (spriteCounter > 12) {
-                if (spriteNum == 1) {
+                if (spriteNum == 0) {
+                    spriteNum = 1;
+                } else if (spriteNum == 1) {
                     spriteNum = 2;
                 } else if (spriteNum == 2) {
-                    spriteNum = 3;
-                } else if (spriteNum == 3) {
-                    spriteNum = 4;
-                } else if (spriteNum == 4) {
-                    spriteNum = 5;
-                } else if (spriteNum == 5) {
-                    spriteNum = 6;
-                } else if (spriteNum == 6) {
-                    spriteNum = 7;
-                } else if (spriteNum == 7) {
-                    spriteNum = 1;
+                    spriteNum = 0;
                 }
                 spriteCounter = 0;
             }
@@ -129,84 +107,16 @@ public class Player extends Entity {
         BufferedImage bufferedImage = null;
         switch (direction) {
             case "up" -> {
-                switch (spriteNum) {
-                    case 1 ->
-                        bufferedImage = up1;
-                    case 2 ->
-                        bufferedImage = up2;
-                    case 3 ->
-                        bufferedImage = up3;
-                    case 4 ->
-                        bufferedImage = up4;
-                    case 5 ->
-                        bufferedImage = up5;
-                    case 6 ->
-                        bufferedImage = up6;
-                    case 7 ->
-                        bufferedImage = up7;
-                    default -> {
-                    }
-                }
+                bufferedImage = up[spriteNum];
             }
             case "down" -> {
-                switch (spriteNum) {
-                    case 1 ->
-                        bufferedImage = down1;
-                    case 2 ->
-                        bufferedImage = down2;
-                    case 3 ->
-                        bufferedImage = down3;
-                    case 4 ->
-                        bufferedImage = down4;
-                    case 5 ->
-                        bufferedImage = down5;
-                    case 6 ->
-                        bufferedImage = down6;
-                    case 7 ->
-                        bufferedImage = down7;
-                    default -> {
-                    }
-                }
+                bufferedImage = down[spriteNum];
             }
             case "left" -> {
-                switch (spriteNum) {
-                    case 1 ->
-                        bufferedImage = left1;
-                    case 2 ->
-                        bufferedImage = left2;
-                    case 3 ->
-                        bufferedImage = left3;
-                    case 4 ->
-                        bufferedImage = left4;
-                    case 5 ->
-                        bufferedImage = left5;
-                    case 6 ->
-                        bufferedImage = left6;
-                    case 7 ->
-                        bufferedImage = left7;
-                    default -> {
-                    }
-                }
+                bufferedImage = left[spriteNum];
             }
             case "right" -> {
-                switch (spriteNum) {
-                    case 1 ->
-                        bufferedImage = right1;
-                    case 2 ->
-                        bufferedImage = right2;
-                    case 3 ->
-                        bufferedImage = right3;
-                    case 4 ->
-                        bufferedImage = right4;
-                    case 5 ->
-                        bufferedImage = right5;
-                    case 6 ->
-                        bufferedImage = right6;
-                    case 7 ->
-                        bufferedImage = right7;
-                    default -> {
-                    }
-                }
+                bufferedImage = right[spriteNum];
             }
             default -> {
             }

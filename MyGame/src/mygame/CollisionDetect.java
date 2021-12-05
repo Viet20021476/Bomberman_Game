@@ -12,14 +12,14 @@ public class CollisionDetect {
     }
 
     public void checkTile(Entity entity) {
-        int leftX = entity.x + entity.solidArea.x + 10;
+        int leftX = entity.x + entity.solidArea.x - 5;
         int rightX = entity.x + entity.solidArea.x + entity.solidArea.width - 10;
         int topY = entity.y + entity.solidArea.y;
         int bottomY = entity.y + entity.solidArea.y + entity.solidArea.height;
 
         int leftCol = leftX / gamePanel.TILESIZE;
         int rightCol = rightX / gamePanel.TILESIZE;
-        int topRow = (topY + 20) / gamePanel.TILESIZE;
+        int topRow = (topY - 10) / gamePanel.TILESIZE;
         int bottomRow = (bottomY - 20) / gamePanel.TILESIZE;
 
         Tile tile1;

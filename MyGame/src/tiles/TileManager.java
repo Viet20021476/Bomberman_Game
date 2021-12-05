@@ -14,9 +14,12 @@ import javax.imageio.ImageIO;
 import mygame.GamePanel;
 
 public class TileManager {
+    private final int WIDTH = 16;
+    private final int HEIGHT = 13;
+    
     private ArrayList<BufferedImage> imageList = new ArrayList<>();
     GamePanel gamePanel;
-    private Tile[][] tileMap = new Tile[16][13];
+    private Tile[][] tileMap = new Tile[WIDTH][HEIGHT];
     
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -46,7 +49,7 @@ public class TileManager {
             int row = 0;
             while (readFile.hasNextLine()) {
                 String s = readFile.nextLine();
-                while (s.length() < 16) {
+                while (s.length() < WIDTH) {
                     s += " ";
                 }
                 temp.add(s);
@@ -81,8 +84,8 @@ public class TileManager {
         int m = 0;
         int n = GamePanel.TILESIZE;
 
-        for (int i = 0; i < 13; i++) {
-            for (int j = 0; j < 16; j++) {
+        for (int i = 0; i < HEIGHT; i++) {
+            for (int j = 0; j < WIDTH; j++) {
                 if (tileMap[j][i] instanceof Wall) {
                     g2.drawImage(imageList.get(WALL), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                 } else if (tileMap[j][i] instanceof Grass) {
@@ -114,9 +117,6 @@ public class TileManager {
             return tileMap[x][y];
         }
     }
-    
-    private final int WIDTH = 16;
-    private final int HEIGHT = 13;
     
     private final int GRASS = 0;
     private final int WALL = 1;

@@ -201,10 +201,10 @@ public class Bomb {
     }
     
     public void draw(Graphics2D g2, GamePanel gamePanel) {
-        BufferedImage image = bomb_exploded_2;
+        BufferedImage image;
         if (gamePanel.keyHandle.bombed == true && !alreadyBombed) {
-            x = fitTilePosition(gamePanel.player.x);
-            y = fitTilePosition(gamePanel.player.y);
+            x = fitTilePosition(gamePanel.player.x + 5);
+            y = fitTilePosition(gamePanel.player.y + 10);
             image = bomb;
             g2.drawImage(image, x, y, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
             
@@ -233,6 +233,10 @@ public class Bomb {
             alreadyBombed = false;
             drawExplosion(3, g2);
         }
+    }
+    
+    public boolean isAlreadyBombed() {
+        return alreadyBombed;
     }
     
     private final long START_TIME_BOMB_1 = 500000000;
