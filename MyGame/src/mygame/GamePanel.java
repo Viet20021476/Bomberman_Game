@@ -1,5 +1,6 @@
 package mygame;
 
+import Entities.Balloom;
 import Entities.Player;
 import bomb.BombManager;
 import java.awt.Color;
@@ -7,10 +8,18 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import tiles.Brick;
+import tiles.Grass;
+import tiles.Tile;
 import tiles.TileManager;
+import tiles.Wall;
 
 public class GamePanel extends JPanel implements Runnable {
     
@@ -37,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandle keyHandle = new KeyHandle(this);
     Thread gameThread;
     public Player player = new Player(this, keyHandle);
+    private Balloom balloom = new Balloom(this, 0, 0);
     private TileManager tileManager = new TileManager(this);
     public CollisionDetect collisionDetect = new CollisionDetect(this);
     private BombManager bombManager = new BombManager(this);
@@ -103,7 +113,63 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.draw(g2);
         bombManager.draw(g2, this);
         player.draw(g2);
+        balloom.draw(g2);
         g2.dispose();
+    }
+    
+    public void loadTileMap(Tile[][] tileMap) {
+        ArrayList<String> temp = new ArrayList<>();
+        File file = new File("res/maps/map_1.txt");
+        try {
+            Scanner readFile = new Scanner(file);
+            int col = 0;
+            int row = 0;
+            while (readFile.hasNextLine()) {
+                String s = readFile.nextLine();
+                while (s.length() < WIDTH) {
+                    s += " ";
+                }
+                temp.add(s);
+            }
+
+            for (String s : temp) {
+                for (int i = 0; i < s.length(); i++) {
+                    switch (s.charAt(i)) {
+                        case ' ':
+                            tileMap[col][row] = new Grass();
+                            break;
+                        case '#':
+                            tileMap[col][row] = new Wall();
+                            break;
+                        case '*':
+                            tileMap[col][row] = new Brick("NONE");
+                            break;
+                        case 'b':
+                            tileMap[col][row] = new Brick("BOMB");
+                            break;
+                        case 'f':
+                            tileMap[col][row] = new Brick("FLAME");
+                            break;
+                        case 's':
+                            tileMap[col][row] = new Brick("SPEED");
+                            break;
+                        case 'p':
+                            player.setX(col * TILESIZE);
+                            player.setY(row * TILESIZE);
+                        case '1':
+                            balloom.setX(col * TILESIZE);
+                            balloom.setY(row * TILESIZE);
+                        default:
+                            tileMap[col][row] = new Grass();
+                    }
+                    col++;
+                }
+                col = 0;
+                row++;
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(TileManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     public Player getPlayer() {

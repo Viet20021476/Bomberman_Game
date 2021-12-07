@@ -25,7 +25,7 @@ public class TileManager {
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         getTileImage();
-        loadTileMap();
+        gamePanel.loadTileMap(tileMap);
     }
 
     private void getTileImage() {
@@ -40,55 +40,6 @@ public class TileManager {
             imageList.add(ImageIO.read(new FileInputStream("res/tiles/powerup_flames.png")));
             imageList.add(ImageIO.read(new FileInputStream("res/tiles/powerup_speed.png")));
         } catch (IOException ex) {
-            Logger.getLogger(TileManager.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    private void loadTileMap() {
-        ArrayList<String> temp = new ArrayList<>();
-        File file = new File("res/maps/map_1.txt");
-        try {
-            Scanner readFile = new Scanner(file);
-            int col = 0;
-            int row = 0;
-            while (readFile.hasNextLine()) {
-                String s = readFile.nextLine();
-                while (s.length() < WIDTH) {
-                    s += " ";
-                }
-                temp.add(s);
-            }
-
-            for (String s : temp) {
-                for (int i = 0; i < s.length(); i++) {
-                    switch (s.charAt(i)) {
-                        case ' ':
-                            tileMap[col][row] = new Grass();
-                            break;
-                        case '#':
-                            tileMap[col][row] = new Wall();
-                            break;
-                        case '*':
-                            tileMap[col][row] = new Brick("NONE");
-                            break;
-                        case 'b':
-                            tileMap[col][row] = new Brick("BOMB");
-                            break;
-                        case 'f':
-                            tileMap[col][row] = new Brick("FLAME");
-                            break;
-                        case 's':
-                            tileMap[col][row] = new Brick("SPEED");
-                            break;
-                        default:
-                            tileMap[col][row] = new Grass();
-                    }
-                    col++;
-                }
-                col = 0;
-                row++;
-            }
-        } catch (FileNotFoundException ex) {
             Logger.getLogger(TileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

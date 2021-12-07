@@ -21,6 +21,14 @@ public class Entity {
         return solidArea.x;
     }
     
+    public void setX(int x) {
+        this.solidArea.x = x;
+    }
+    
+    public void setY(int y) {
+        this.solidArea.y = y;
+    }
+    
     public int getY() {
         return solidArea.y;
     }
@@ -45,5 +53,5 @@ public class Entity {
     protected BufferedImage[] down = new BufferedImage[3];
     protected BufferedImage[] left = new BufferedImage[3];
     protected BufferedImage[] right = new BufferedImage[3];
-    protected BufferedImage[] dead = new BufferedImage[3];
+    protected BufferedImage[] dead = new BufferedImage[4];
 }

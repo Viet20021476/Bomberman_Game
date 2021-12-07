@@ -5,7 +5,7 @@ import mygame.GamePanel;
 public abstract class PowerUp implements Tile {
     @Override
     public boolean isCollision() {
-        return true;
+        return false;
     }
     
     @Override
