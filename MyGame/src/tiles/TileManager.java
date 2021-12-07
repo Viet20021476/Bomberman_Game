@@ -94,68 +94,53 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        int m = 0;
-        int n = GamePanel.TILESIZE;
-
-        for (int i = 0; i < HEIGHT; i++) {
+        for (int i = 0; i < HEIGHT - 1; i++) {
             for (int j = 0; j < WIDTH; j++) {
+                int index = -1;
                 if (tileMap[j][i] instanceof Wall) {
-                    // CAMERA
-                    int screenX = m - gamePanel.player.x + gamePanel.player.screenX;
-                    int screenY = n - gamePanel.player.y + gamePanel.player.screenY;
-                    g2.drawImage(imageList.get(WALL), screenX, screenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    index = WALL;
                 } else if (tileMap[j][i] instanceof Grass) {
-                    // CAMERA
-                    int screenX = m - gamePanel.player.x + gamePanel.player.screenX;
-                    int screenY = n - gamePanel.player.y + gamePanel.player.screenY;
-                    g2.drawImage(imageList.get(GRASS), screenX, screenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    index = GRASS;
                 } else if (tileMap[j][i] instanceof BombPowerUp) {
-                    g2.drawImage(imageList.get(POWERUP_BOMBS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    index = POWERUP_BOMBS;
                 } else if (tileMap[j][i] instanceof FlamePowerUp) {
-                    g2.drawImage(imageList.get(POWERUP_FLAMES), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    index = POWERUP_FLAMES;
                 } else if (tileMap[j][i] instanceof SpeedPowerUp) {
-                    g2.drawImage(imageList.get(POWERUP_SPEED), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    index = POWERUP_SPEED;
                 } else if (tileMap[j][i] instanceof Brick) {
                     Brick brick = (Brick) tileMap[j][i];
-                    if (brick.getExplosionStage() == 3) {
-                        int index;
-                        switch (brick.getPowerUp()) {
-                            case "BOMB":
-                                index = POWERUP_BOMBS;
-                                tileMap[j][i] = new BombPowerUp();
-                                break;
-                            case "FLAME":
-                                index = POWERUP_FLAMES;
-                                tileMap[j][i] = new FlamePowerUp();
-                                break;
-                            case "SPEED":
-                                index = POWERUP_SPEED;
-                                tileMap[j][i] = new SpeedPowerUp();
-                                break;
-                            default:
-                                index = GRASS;
-                                tileMap[j][i] = new Grass();
-                                break;
-                        }
-                        // CAMERA
-                        int screenX = m - gamePanel.player.x + gamePanel.player.screenX;
-                        int screenY = n - gamePanel.player.y + gamePanel.player.screenY;
-                        g2.drawImage(imageList.get(index), screenX, screenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                    if (brick.getExplosionStage() == 0) {
+                        index = BRICK;
                     } else {
-                        if (brick.getExplosionStage() + 3 != BRICK) {
-                            g2.drawImage(imageList.get(GRASS), m, n, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                        gamePanel.drawTile(j, i, imageList.get(GRASS), g2);
+                        if (brick.getExplosionStage() == 3) {
+                            switch (brick.getPowerUp()) {
+                                case "BOMB" -> {
+                                    index = POWERUP_BOMBS;
+                                    tileMap[j][i] = new BombPowerUp();
+                                }
+                                case "FLAME" -> {
+                                    index = POWERUP_FLAMES;
+                                    tileMap[j][i] = new FlamePowerUp();
+                                }
+                                case "SPEED" -> {
+                                    index = POWERUP_SPEED;
+                                    tileMap[j][i] = new SpeedPowerUp();
+                                }
+                                default -> {
+                                    index = GRASS;
+                                    tileMap[j][i] = new Grass();
+                                }
+                            }
+                        } else {
+                            index = brick.getExplosionStage() + 3;
                         }
-                        // CAMERA
-                        int screenX = m - gamePanel.player.x + gamePanel.player.screenX;
-                        int screenY = n - gamePanel.player.y + gamePanel.player.screenY;
-                        g2.drawImage(imageList.get(brick.getExplosionStage() + 3), screenX, screenY,
-                                GamePanel.TILESIZE, GamePanel.TILESIZE, null);
                     }
                 }
-                m += GamePanel.TILESIZE;
+                if (index != -1) {
+                    gamePanel.drawTile(j, i, imageList.get(index), g2);
+                }
             }
-            m = 0;
-            n += GamePanel.TILESIZE;
         }
     }
 

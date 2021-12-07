@@ -77,30 +77,21 @@ public class Player extends Entity {
 
             if (!collisionOn) {
                 switch (direction) {
-                    case "up":
-                        y -= speed;
-                        break;
-                    case "down":
-                        y += speed;
-                        break;
-                    case "left":
-                        x -= speed;
-                        break;
-                    case "right":
-                        x += speed;
-                        break;
-
+                    case "up" -> y -= speed;
+                    case "down" -> y += speed;
+                    case "left" -> x -= speed;
+                    case "right" -> x += speed;
                 }
             }
 
             spriteCounter++;
             if (spriteCounter > 12) {
-                if (spriteNum == 0) {
-                    spriteNum = 1;
-                } else if (spriteNum == 1) {
-                    spriteNum = 2;
-                } else if (spriteNum == 2) {
-                    spriteNum = 0;
+                switch (spriteNum) {
+                    case 0 -> spriteNum = 1;
+                    case 1 -> spriteNum = 2;
+                    case 2 -> spriteNum = 0;
+                    default -> {
+                    }
                 }
                 spriteCounter = 0;
             }

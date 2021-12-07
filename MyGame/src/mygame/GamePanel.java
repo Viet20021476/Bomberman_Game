@@ -7,6 +7,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
@@ -40,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable {
     private TileManager tileManager = new TileManager(this);
     public CollisionDetect collisionDetect = new CollisionDetect(this);
     private BombManager bombManager = new BombManager(this);
+    private Scroller scroller = new Scroller(this);
     
     public void setupGame() {
         
@@ -98,6 +100,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
+        scroller.updateOffset();
         tileManager.draw(g2);
         bombManager.draw(g2, this);
         player.draw(g2);
@@ -114,5 +117,25 @@ public class GamePanel extends JPanel implements Runnable {
     
     public BombManager getBombManager() {
         return bombManager;
+    }
+    
+        
+    public void drawTile(int x, int y, BufferedImage image, Graphics2D g2) {
+        draw(x * TILESIZE, (y + 1) * TILESIZE, image, g2);
+    }
+    
+    public void draw(int x, int y, BufferedImage image, Graphics2D g2) {
+        int newX = x + scroller.getOffsetX();
+        int newY = y + scroller.getOffsetY();
+        if (!outOfBounds(newX, newY)) {
+            g2.drawImage(image, newX, newY, TILESIZE, TILESIZE, null);
+        }
+    }
+    
+    private boolean outOfBounds(int x, int y) {
+        return x < -TILESIZE
+                || x > screenWidth + TILESIZE
+                || y < -TILESIZE
+                || y > screenHeight + TILESIZE;
     }
 }

@@ -11,7 +11,6 @@ import mygame.GamePanel;
 import tiles.Tile;
 import tiles.Brick;
 import tiles.TileManager;
-import Entities.Entity;
 
 public class Bomb {
     private TileManager tileManager;
@@ -126,7 +125,6 @@ public class Bomb {
                         if (tile instanceof Brick) {
                             Brick brick = (Brick) tile;
                             brick.setExplosionStage(number);
-
                         }
                         break;
                     } else if (i == bombManager.getRange()) {
@@ -160,7 +158,7 @@ public class Bomb {
                 image = bomb_exploded[2];
                 drawExplosion(2, g2);
             }
-            g2.drawImage(image, x, y, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+            gamePanel.drawTile(x, y, image, g2);
         } else {
             expired = true;
             drawExplosion(3, g2);
