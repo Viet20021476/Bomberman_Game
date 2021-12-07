@@ -15,7 +15,7 @@ public class Player extends Entity {
 
     GamePanel gamePanel;
     KeyHandle keyHandler;
-    
+
     public final int screenX;
     public final int screenY;
 
@@ -30,7 +30,7 @@ public class Player extends Entity {
     }
 
     public void setDefaultValues() {
-        speed = 1;
+        speed = 2;
         direction = "down";
     }
 
@@ -75,19 +75,26 @@ public class Player extends Entity {
 
             if (!collisionOn) {
                 switch (direction) {
-                    case "up" -> solidArea.y -= speed;
-                    case "down" -> solidArea.y += speed;
-                    case "left" -> solidArea.x -= speed;
-                    case "right" -> solidArea.x += speed;
+                    case "up" ->
+                        solidArea.y -= speed;
+                    case "down" ->
+                        solidArea.y += speed;
+                    case "left" ->
+                        solidArea.x -= speed;
+                    case "right" ->
+                        solidArea.x += speed;
                 }
             }
 
             spriteCounter++;
             if (spriteCounter > 12) {
                 switch (spriteNum) {
-                    case 0 -> spriteNum = 1;
-                    case 1 -> spriteNum = 2;
-                    case 2 -> spriteNum = 0;
+                    case 0 ->
+                        spriteNum = 1;
+                    case 1 ->
+                        spriteNum = 2;
+                    case 2 ->
+                        spriteNum = 0;
                     default -> {
                     }
                 }
@@ -115,9 +122,29 @@ public class Player extends Entity {
             default -> {
             }
         }
-        g2.drawImage(bufferedImage, screenX, screenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+
+        int tempScreenX = screenX;
+        int tempScreenY = screenY;
+
+        if (screenX > solidArea.x) {
+            tempScreenX = solidArea.x;
+        }
+
+        if (screenY > solidArea.y) {
+            tempScreenY = solidArea.y;
+        }
+
+        if (gamePanel.screenWidth - screenX > gamePanel.mapWidth - getSolidArea().x) {
+            tempScreenX = gamePanel.screenWidth - (gamePanel.mapWidth - getSolidArea().x);
+        }
+
+        if (gamePanel.screenHeight - gamePanel.player.screenY > gamePanel.mapHeight - getSolidArea().y) {
+            tempScreenY = gamePanel.screenHeight - (gamePanel.mapHeight - getSolidArea().y);
+        }
+
+        g2.drawImage(bufferedImage, tempScreenX, tempScreenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
     }
-    
+
     public void increaseSpeed() {
         speed++;
     }
