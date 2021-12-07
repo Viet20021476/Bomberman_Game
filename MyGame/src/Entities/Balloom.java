@@ -12,8 +12,9 @@ import javax.imageio.ImageIO;
 import mygame.GamePanel;
 
 public class Balloom extends Entity {
-    
+
     GamePanel gamePanel;
+    private int movingCounter = 0;
 
     public Balloom(GamePanel gamePanel, int x, int y) {
         this.gamePanel = gamePanel;
@@ -23,7 +24,7 @@ public class Balloom extends Entity {
     }
 
     public void setDefaultValues() {
-        speed = 1;
+        speed = 2;
         direction = "down";
     }
 
@@ -45,32 +46,53 @@ public class Balloom extends Entity {
     }
 
     public void update() {
-        Random random = new Random();
-        int randomInt = random.nextInt(4);
-        switch (randomInt) {
-            case 1 -> direction = "up";
-            case 2 -> direction = "down";
-            case 3 -> direction = "left";
-            case 4 -> direction = "right";
+        movingCounter++;
+        if (movingCounter == 200) {
+            Random random = new Random();
+            int randomInt = random.nextInt(4);
+            switch (randomInt) {
+                case 1:
+                    direction = "up";
+                    break;
+                case 2:
+                    direction = "down";
+                    break;
+                case 3:
+                    direction = "left";
+                    break;
+                case 4:
+                    direction = "right";
+                    break;
+                default:
+                    break;
+            }
+            movingCounter = 0;
         }
         collisionOn = false;
         gamePanel.collisionDetect.checkTile(this);
 
         if (!collisionOn) {
             switch (direction) {
-                case "up" -> solidArea.y -= speed;
-                case "down" -> solidArea.y += speed;
-                case "left" -> solidArea.x -= speed;
-                case "right" -> solidArea.x += speed;
+                case "up" ->
+                    solidArea.y -= speed;
+                case "down" ->
+                    solidArea.y += speed;
+                case "left" ->
+                    solidArea.x -= speed;
+                case "right" ->
+                    solidArea.x += speed;
             }
         }
 
         spriteCounter++;
         if (spriteCounter > 12) {
             switch (spriteNum) {
-                case 0 -> spriteNum = 1;
-                case 1 -> spriteNum = 2;
-                case 2 -> spriteNum = 0;
+                case 0 ->
+                    spriteNum = 1;
+                case 1 ->
+                    spriteNum = 2;
+                case 2 ->
+                    spriteNum = 0;
                 default -> {
                 }
             }
