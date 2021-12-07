@@ -1,6 +1,5 @@
 package tiles;
 
-import Entities.Player;
 import mygame.GamePanel;
 
 public abstract class PowerUp implements Tile {

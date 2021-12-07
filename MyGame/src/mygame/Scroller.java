@@ -16,8 +16,8 @@ public class Scroller {
     }
     
     public void updateOffset() {
-        offsetX = gamePanel.player.screenX - gamePanel.player.x;
-        offsetY = gamePanel.player.screenY - gamePanel.player.y;
+        offsetX = gamePanel.player.screenX - gamePanel.getPlayer().getX();
+        offsetY = gamePanel.player.screenY - gamePanel.getPlayer().getY();
     }
     
     public int getOffsetX() {

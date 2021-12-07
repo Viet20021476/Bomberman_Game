@@ -1,7 +1,6 @@
 package mygame;
 
 import Entities.Player;
-import bomb.Bomb;
 import bomb.BombManager;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -121,7 +120,7 @@ public class GamePanel extends JPanel implements Runnable {
     
         
     public void drawTile(int x, int y, BufferedImage image, Graphics2D g2) {
-        draw(x * TILESIZE, (y + 1) * TILESIZE, image, g2);
+        draw(x * TILESIZE, y * TILESIZE, image, g2);
     }
     
     public void draw(int x, int y, BufferedImage image, Graphics2D g2) {

@@ -22,17 +22,15 @@ public class Player extends Entity {
     public Player(GamePanel gamePanel, KeyHandle keyHandle) {
         this.gamePanel = gamePanel;
         this.keyHandler = keyHandle;
-        screenX = gamePanel.screenWidth / 2 - 35;
-        screenY = gamePanel.screenHeight / 2 - (GamePanel.TILESIZE);
-        solidArea = new Rectangle(8, 12, 32, 32);
+        screenX = (gamePanel.screenWidth - 36) / 2;
+        screenY = (gamePanel.screenHeight - 48) / 2;
+        solidArea = new Rectangle(GamePanel.TILESIZE, GamePanel.TILESIZE, 36, 40);
         setDefaultValues();
         getPlayerImage();
     }
 
     public void setDefaultValues() {
-        x = screenX;
-        y = screenY;
-        speed = 3;
+        speed = 1;
         direction = "down";
     }
 
@@ -77,10 +75,10 @@ public class Player extends Entity {
 
             if (!collisionOn) {
                 switch (direction) {
-                    case "up" -> y -= speed;
-                    case "down" -> y += speed;
-                    case "left" -> x -= speed;
-                    case "right" -> x += speed;
+                    case "up" -> solidArea.y -= speed;
+                    case "down" -> solidArea.y += speed;
+                    case "left" -> solidArea.x -= speed;
+                    case "right" -> solidArea.x += speed;
                 }
             }
 

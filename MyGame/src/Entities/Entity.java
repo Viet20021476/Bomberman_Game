@@ -2,32 +2,35 @@ package Entities;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import mygame.GamePanel;
 
 public class Entity {
 
-    public int x;
-    public int y;
+    protected String direction;
     protected int speed;
-    
-    protected BufferedImage[] up = new BufferedImage[3];
-    protected BufferedImage[] down = new BufferedImage[3];
-    protected BufferedImage[] left = new BufferedImage[3];
-    protected BufferedImage[] right = new BufferedImage[3];
-    protected BufferedImage[] dead = new BufferedImage[3];
-
-    public String direction;
-
     public int spriteCounter = 0;
     public int spriteNum = 1;
     protected Rectangle solidArea;
     public boolean collisionOn = false;
 
+    public String getDirection() {
+        return direction;
+    }
+    
     public int getX() {
-        return x;
+        return solidArea.x;
     }
     
     public int getY() {
-        return y;
+        return solidArea.y;
+    }
+    
+    public int getCenterX() {
+        return solidArea.x + GamePanel.TILESIZE / 2;
+    }
+    
+    public int getCenterY() {
+        return solidArea.y + GamePanel.TILESIZE / 2;
     }
     
     public Rectangle getSolidArea() {
@@ -37,4 +40,10 @@ public class Entity {
     public int getSpeed() {
         return speed;
     }
+    
+    protected BufferedImage[] up = new BufferedImage[3];
+    protected BufferedImage[] down = new BufferedImage[3];
+    protected BufferedImage[] left = new BufferedImage[3];
+    protected BufferedImage[] right = new BufferedImage[3];
+    protected BufferedImage[] dead = new BufferedImage[3];
 }

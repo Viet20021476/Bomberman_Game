@@ -1,66 +1,74 @@
 package mygame;
 
 import Entities.Entity;
+import tiles.Grass;
 import tiles.Tile;
 
 public class CollisionDetect {
 
-    GamePanel gamePanel;
+    private GamePanel gamePanel;
 
     public CollisionDetect(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
     }
 
     public void checkTile(Entity entity) {
-        int leftX = entity.getX() + entity.getSolidArea().x;
-        int rightX = entity.getX() + entity.getSolidArea().x + entity.getSolidArea().width - 20;
-        int topY = entity.getY() + entity.getSolidArea().y + 20;
-        int bottomY = entity.getY() + entity.getSolidArea().y + entity.getSolidArea().height + 10;
+        int leftX = entity.getX();
+        int rightX = entity.getX() + entity.getSolidArea().width;
+        int topY = entity.getY();
+        int bottomY = entity.getY() + entity.getSolidArea().height;
 
         int leftCol = leftX / GamePanel.TILESIZE;
         int rightCol = rightX / GamePanel.TILESIZE;
-        int topRow = (topY - 10) / GamePanel.TILESIZE;
-        int bottomRow = (bottomY - 20) / GamePanel.TILESIZE;
+        int topRow = topY / GamePanel.TILESIZE;
+        int bottomRow = bottomY / GamePanel.TILESIZE;
+        
+        int tileX = entity.getCenterX() / GamePanel.TILESIZE;
+        int tileY = entity.getCenterY() / GamePanel.TILESIZE;
+        Tile tile = gamePanel.getTileManager().getTileAt(leftCol, topRow);
+        if (tile instanceof Grass) {
+            Grass grass = (Grass) tile;
+            if (grass.hasBomb()) {
+                return;
+            }
+        }
 
         Tile tile1;
         Tile tile2;
 
-        switch (entity.direction) {
-            case "up":
+        switch (entity.getDirection()) {
+            case "up" -> {
                 topRow = (topY - entity.getSpeed()) / GamePanel.TILESIZE;
-                tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow - 1);
-                tile2 = gamePanel.getTileManager().getTileAt(rightCol, topRow - 1);
+                tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow);
+                tile2 = gamePanel.getTileManager().getTileAt(rightCol, topRow);
                 if (tile1.isCollision() || tile2.isCollision()) {
                     entity.collisionOn = true;
                 }
-                break;
-            case "down":
-                bottomRow = (bottomY + entity.getSpeed() - 10) / GamePanel.TILESIZE;
-                tile1 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow - 1);
-                tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow - 1);
+            }
+            case "down" -> {
+                bottomRow = (bottomY + entity.getSpeed()) / GamePanel.TILESIZE;
+                tile1 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow);
+                tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow);
                 if (tile1.isCollision() || tile2.isCollision()) {
                     entity.collisionOn = true;
                 }
-                break;
-            case "left":
+            }
+            case "left" -> {
                 leftCol = (leftX - entity.getSpeed()) / GamePanel.TILESIZE;
-                tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow - 1);
-                tile2 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow - 1);
+                tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow);
+                tile2 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow);
                 if (tile1.isCollision() || tile2.isCollision()) {
                     entity.collisionOn = true;
                 }
-                break;
-            case "right":
+            }
+            case "right" -> {
                 rightCol = (rightX + entity.getSpeed()) / GamePanel.TILESIZE;
-                tile1 = gamePanel.getTileManager().getTileAt(rightCol, topRow - 1);
-                tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow - 1);
+                tile1 = gamePanel.getTileManager().getTileAt(rightCol, topRow);
+                tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow);
                 if (tile1.isCollision() || tile2.isCollision()) {
                     entity.collisionOn = true;
                 }
-                if (entity.getX() + entity.getSolidArea().width + entity.getSpeed() == gamePanel.newScreenWidth) {
-                    entity.collisionOn = true;
-                }
-                break;
+            }
         }
     }
 }

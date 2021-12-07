@@ -2,7 +2,6 @@ package mygame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import bomb.BombManager;
 
 public class KeyHandle implements KeyListener {
 
@@ -10,7 +9,6 @@ public class KeyHandle implements KeyListener {
     public boolean downPressed;
     public boolean leftPressed;
     public boolean rightPressed;
-    public boolean bombed;
     
     private GamePanel gamePanel;
     
