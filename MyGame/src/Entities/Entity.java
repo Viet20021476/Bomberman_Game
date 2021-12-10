@@ -1,17 +1,22 @@
 package Entities;
 
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import mygame.GamePanel;
 
-public class Entity {
+public abstract class Entity {
 
     protected String direction;
     protected int speed;
-    public int spriteCounter = 0;
-    public int spriteNum = 1;
+    protected int spriteCounter = 0;
+    protected int spriteNum = 1;
     protected Rectangle solidArea;
-    public boolean collisionOn = false;
+    protected boolean collisionOn = false;
+    
+    public abstract void update();
+    
+    public abstract void draw(Graphics2D g2);
 
     public String getDirection() {
         return direction;
@@ -47,6 +52,18 @@ public class Entity {
     
     public int getSpeed() {
         return speed;
+    }
+    
+    public boolean getCollisionOn() {
+        return collisionOn;
+    }
+    
+    public void setCollision(boolean collisionOn) {
+        this.collisionOn = collisionOn;
+    }
+    
+    protected int getSpriteNum() {
+        return spriteNum;
     }
     
     protected BufferedImage[] up = new BufferedImage[3];

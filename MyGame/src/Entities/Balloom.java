@@ -45,9 +45,10 @@ public class Balloom extends Entity {
         }
     }
 
+    @Override
     public void update() {
         movingCounter++;
-        if (movingCounter == 200) {
+        if (movingCounter == 50) {
             Random random = new Random();
             int randomInt = random.nextInt(4);
             switch (randomInt) {
@@ -100,6 +101,7 @@ public class Balloom extends Entity {
         }
     }
 
+    @Override
     public void draw(Graphics2D g2) {
         BufferedImage bufferedImage = null;
         switch (direction) {

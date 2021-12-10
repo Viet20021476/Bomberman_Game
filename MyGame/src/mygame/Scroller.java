@@ -1,8 +1,5 @@
 package mygame;
 
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-
 public class Scroller {
 
     private final int BASE_X = 0;

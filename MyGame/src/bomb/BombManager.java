@@ -180,12 +180,19 @@ public class BombManager {
                         if (tile instanceof Brick) {
                             Brick brick = (Brick) tile;
                             brick.setExplosionStage(number);
+                        } else if (tile instanceof Grass) {
+                            Grass grass = (Grass) tile;
+                            grass.setHasFlame(false);
                         }
                         break;
-                    } else if (i == gamePanel.getBombManager().getRange()) {
-                        gamePanel.drawTile(tileX, tileY, end_flame, g2);
                     } else {
-                        gamePanel.drawTile(tileX, tileY, mid_flame, g2);
+                        Grass grass = (Grass) tile;
+                        grass.setHasFlame(true);
+                        if (i == gamePanel.getBombManager().getRange()) {
+                            gamePanel.drawTile(tileX, tileY, end_flame, g2);
+                        } else {
+                            gamePanel.drawTile(tileX, tileY, mid_flame, g2);
+                        }
                     }
                 }
             }

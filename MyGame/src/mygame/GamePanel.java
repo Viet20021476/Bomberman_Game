@@ -1,6 +1,7 @@
 package mygame;
 
 import Entities.Balloom;
+import Entities.EntityManager;
 import Entities.Player;
 import bomb.BombManager;
 import java.awt.Color;
@@ -46,10 +47,10 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandle keyHandle = new KeyHandle(this);
     Thread gameThread;
     public Player player = new Player(this, keyHandle);
-    private Balloom balloom = new Balloom(this, 0, 0);
+    private EntityManager entityManager = new EntityManager(this);
     private TileManager tileManager = new TileManager(this);
-    public CollisionDetect collisionDetect = new CollisionDetect(this);
     private BombManager bombManager = new BombManager(this);
+    public CollisionDetect collisionDetect = new CollisionDetect(this);
     private Scroller scroller = new Scroller(this);
 
     public void setupGame() {
@@ -102,8 +103,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
-        balloom.update();
+        entityManager.update();
     }
 
     @Override
@@ -113,8 +113,7 @@ public class GamePanel extends JPanel implements Runnable {
         scroller.updateOffset();
         tileManager.draw(g2);
         bombManager.draw(g2, this);
-        player.draw(g2);
-        balloom.draw(g2);
+        entityManager.draw(g2);
         g2.dispose();
     }
 
@@ -155,11 +154,12 @@ public class GamePanel extends JPanel implements Runnable {
                             tileMap[col][row] = new Brick("SPEED");
                             break;
                         case 'p':
+                            entityManager.addEntity(player);
                             player.setX(col * TILESIZE);
                             player.setY(row * TILESIZE);
                         case '1':
-                            balloom.setX(col * TILESIZE);
-                            balloom.setY(row * TILESIZE);
+                            Balloom b = new Balloom(this, col * TILESIZE, row * TILESIZE);
+                            entityManager.addEntity(b);
                         default:
                             tileMap[col][row] = new Grass();
                     }

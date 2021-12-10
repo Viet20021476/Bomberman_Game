@@ -2,6 +2,7 @@ package tiles;
 
 public class Grass implements Tile {
     private boolean hasBomb = false;
+    private boolean hasFlame = false;
     
     @Override
     public boolean isCollision() {
@@ -19,5 +20,13 @@ public class Grass implements Tile {
     
     public boolean hasBomb() {
         return hasBomb;
+    }
+    
+    public void setHasFlame(boolean hasFlame) {
+        this.hasFlame = hasFlame;
+    }
+    
+    public boolean hasFlame() {
+        return hasFlame;
     }
 }

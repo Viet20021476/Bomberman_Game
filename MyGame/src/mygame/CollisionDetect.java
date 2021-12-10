@@ -42,7 +42,7 @@ public class CollisionDetect {
                 tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow);
                 tile2 = gamePanel.getTileManager().getTileAt(rightCol, topRow);
                 if (tile1.isCollision() || tile2.isCollision()) {
-                    entity.collisionOn = true;
+                    entity.setCollision(true);
                 }
             }
             case "down" -> {
@@ -50,7 +50,7 @@ public class CollisionDetect {
                 tile1 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow);
                 tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow);
                 if (tile1.isCollision() || tile2.isCollision()) {
-                    entity.collisionOn = true;
+                    entity.setCollision(true);
                 }
             }
             case "left" -> {
@@ -58,7 +58,7 @@ public class CollisionDetect {
                 tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow);
                 tile2 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow);
                 if (tile1.isCollision() || tile2.isCollision()) {
-                    entity.collisionOn = true;
+                    entity.setCollision(true);
                 }
             }
             case "right" -> {
@@ -66,7 +66,7 @@ public class CollisionDetect {
                 tile1 = gamePanel.getTileManager().getTileAt(rightCol, topRow);
                 tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow);
                 if (tile1.isCollision() || tile2.isCollision()) {
-                    entity.collisionOn = true;
+                    entity.setCollision(true);
                 }
             }
         }

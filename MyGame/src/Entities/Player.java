@@ -56,6 +56,7 @@ public class Player extends Entity {
         }
     }
 
+    @Override
     public void update() {
         if (keyHandler.upPressed == true || keyHandler.downPressed == true
                 || keyHandler.leftPressed == true || keyHandler.rightPressed == true) {
@@ -104,6 +105,7 @@ public class Player extends Entity {
 
     }
 
+    @Override
     public void draw(Graphics2D g2) {
         BufferedImage bufferedImage = null;
         switch (direction) {
