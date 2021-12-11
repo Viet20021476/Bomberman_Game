@@ -4,9 +4,11 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import mygame.GamePanel;
+import tiles.Tile;
 
 public abstract class Entity {
 
+    protected GamePanel gamePanel;
     protected String direction;
     protected int speed;
     protected int spriteCounter = 0;
@@ -36,6 +38,12 @@ public abstract class Entity {
 
     public int getY() {
         return solidArea.y;
+    }
+    
+    public Tile getCurrentTile() {
+        int TileX = getCenterX() / GamePanel.TILESIZE;
+        int TileY = getCenterY() / GamePanel.TILESIZE;
+        return gamePanel.getTileManager().getTileAt(TileX, TileY);
     }
 
     public int getCenterX() {

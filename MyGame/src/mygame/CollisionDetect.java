@@ -36,39 +36,43 @@ public class CollisionDetect {
         Tile tile1;
         Tile tile2;
 
-        switch (entity.getDirection()) {
-            case "up" -> {
-                topRow = (topY - entity.getSpeed()) / GamePanel.TILESIZE;
-                tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow);
-                tile2 = gamePanel.getTileManager().getTileAt(rightCol, topRow);
-                if (tile1.isCollision() || tile2.isCollision()) {
-                    entity.setCollision(true);
+        try {
+            switch (entity.getDirection()) {
+                case "up" -> {
+                    topRow = (topY - entity.getSpeed()) / GamePanel.TILESIZE;
+                    tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow);
+                    tile2 = gamePanel.getTileManager().getTileAt(rightCol, topRow);
+                    if (tile1.isCollision() || tile2.isCollision()) {
+                        entity.setCollision(true);
+                    }
+                }
+                case "down" -> {
+                    bottomRow = (bottomY + entity.getSpeed()) / GamePanel.TILESIZE;
+                    tile1 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow);
+                    tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow);
+                    if (tile1.isCollision() || tile2.isCollision()) {
+                        entity.setCollision(true);
+                    }
+                }
+                case "left" -> {
+                    leftCol = (leftX - entity.getSpeed()) / GamePanel.TILESIZE;
+                    tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow);
+                    tile2 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow);
+                    if (tile1.isCollision() || tile2.isCollision()) {
+                        entity.setCollision(true);
+                    }
+                }
+                case "right" -> {
+                    rightCol = (rightX + entity.getSpeed()) / GamePanel.TILESIZE;
+                    tile1 = gamePanel.getTileManager().getTileAt(rightCol, topRow);
+                    tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow);
+                    if (tile1.isCollision() || tile2.isCollision()) {
+                        entity.setCollision(true);
+                    }
                 }
             }
-            case "down" -> {
-                bottomRow = (bottomY + entity.getSpeed()) / GamePanel.TILESIZE;
-                tile1 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow);
-                tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow);
-                if (tile1.isCollision() || tile2.isCollision()) {
-                    entity.setCollision(true);
-                }
-            }
-            case "left" -> {
-                leftCol = (leftX - entity.getSpeed()) / GamePanel.TILESIZE;
-                tile1 = gamePanel.getTileManager().getTileAt(leftCol, topRow);
-                tile2 = gamePanel.getTileManager().getTileAt(leftCol, bottomRow);
-                if (tile1.isCollision() || tile2.isCollision()) {
-                    entity.setCollision(true);
-                }
-            }
-            case "right" -> {
-                rightCol = (rightX + entity.getSpeed()) / GamePanel.TILESIZE;
-                tile1 = gamePanel.getTileManager().getTileAt(rightCol, topRow);
-                tile2 = gamePanel.getTileManager().getTileAt(rightCol, bottomRow);
-                if (tile1.isCollision() || tile2.isCollision()) {
-                    entity.setCollision(true);
-                }
-            }
+        } catch (NullPointerException e) {
+            
         }
     }
 }

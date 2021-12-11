@@ -10,6 +10,8 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import mygame.GamePanel;
 import tiles.Grass;
+import tiles.PowerUp;
+import tiles.Tile;
 
 public class EntityManager {
     private ArrayList<Entity> entityList = new ArrayList<>();
@@ -45,13 +47,18 @@ public class EntityManager {
         for (int i = 0; i < entityList.size(); i++) {
             Entity e = entityList.get(i);
             e.update();
-            int TileX = e.getCenterX() / GamePanel.TILESIZE;
-            int TileY = e.getCenterY() / GamePanel.TILESIZE;
+            Tile tile = e.getCurrentTile();
             try {
-                Grass grass = (Grass) gamePanel.getTileManager().getTileAt(TileX, TileY);
-                if (grass.hasFlame()) {
-                    entityList.remove(i);
-                    i--;
+                if (tile instanceof Grass) {
+                    Grass grass = (Grass) tile;
+                    if (grass.hasFlame()) {
+                        entityList.remove(i);
+                        i--;
+                    }
+                }
+                if (e instanceof Player && tile instanceof PowerUp) {
+                    PowerUp pow = (PowerUp) tile;
+                    pow.usePower(gamePanel);
                 }
             } catch (NullPointerException ex) {
                 
@@ -63,6 +70,10 @@ public class EntityManager {
         for (Entity e: entityList) {
             e.draw(g2);
         }
+    }
+    
+    public boolean hasNoEnemy() {
+        return entityList.size() == 1 && entityList.get(0) instanceof Player;
     }
     
     protected BufferedImage[][] enemyLeft = new BufferedImage[2][3];

@@ -13,7 +13,6 @@ import mygame.GamePanel;
 
 public class Balloom extends Entity {
 
-    GamePanel gamePanel;
     private int movingCounter = 0;
 
     public Balloom(GamePanel gamePanel, int x, int y) {

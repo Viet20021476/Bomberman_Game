@@ -39,6 +39,7 @@ public class TileManager {
             imageList.add(ImageIO.read(new FileInputStream("res/tiles/powerup_bombs.png")));
             imageList.add(ImageIO.read(new FileInputStream("res/tiles/powerup_flames.png")));
             imageList.add(ImageIO.read(new FileInputStream("res/tiles/powerup_speed.png")));
+            imageList.add(ImageIO.read(new FileInputStream("res/tiles/portal.png")));
         } catch (IOException ex) {
             Logger.getLogger(TileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -52,12 +53,20 @@ public class TileManager {
                     index = WALL;
                 } else if (tileMap[j][i] instanceof Grass) {
                     index = GRASS;
-                } else if (tileMap[j][i] instanceof BombPowerUp) {
-                    index = POWERUP_BOMBS;
-                } else if (tileMap[j][i] instanceof FlamePowerUp) {
-                    index = POWERUP_FLAMES;
-                } else if (tileMap[j][i] instanceof SpeedPowerUp) {
-                    index = POWERUP_SPEED;
+                } else if (tileMap[j][i] instanceof PowerUp) {
+                    PowerUp pow = (PowerUp) tileMap[j][i];
+                    if (pow.isUsed()) {
+                        tileMap[j][i] = new Grass();
+                        index = GRASS;
+                    } else if (tileMap[j][i] instanceof BombPowerUp) {
+                        index = POWERUP_BOMBS;
+                    } else if (tileMap[j][i] instanceof FlamePowerUp) {
+                        index = POWERUP_FLAMES;
+                    } else if (tileMap[j][i] instanceof SpeedPowerUp) {
+                        index = POWERUP_SPEED;
+                    } else if (tileMap[j][i] instanceof Portal) {
+                        index = PORTAL;
+                    }
                 } else if (tileMap[j][i] instanceof Brick) {
                     Brick brick = (Brick) tileMap[j][i];
                     if (brick.getExplosionStage() == 0) {
@@ -77,6 +86,10 @@ public class TileManager {
                                 case "SPEED" -> {
                                     index = POWERUP_SPEED;
                                     tileMap[j][i] = new SpeedPowerUp();
+                                }
+                                case "PORTAL" -> {
+                                    index = PORTAL;
+                                    tileMap[j][i] = new Portal();
                                 }
                                 default -> {
                                     index = GRASS;
@@ -112,4 +125,5 @@ public class TileManager {
     private final int POWERUP_BOMBS = 6;
     private final int POWERUP_FLAMES = 7;
     private final int POWERUP_SPEED = 8;
+    private final int PORTAL = 9;
 }

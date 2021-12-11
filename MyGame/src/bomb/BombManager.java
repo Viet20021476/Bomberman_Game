@@ -183,11 +183,13 @@ public class BombManager {
                         if (tile instanceof Brick) {
                             Brick brick = (Brick) tile;
                             brick.setExplosionStage(number);
+                            break;
                         } else if (tile instanceof Grass) {
                             Grass grass = (Grass) tile;
                             grass.setHasFlame(false);
+                        } else {
+                            break;
                         }
-                        break;
                     } else {
                         Grass grass = (Grass) tile;
                         grass.setHasFlame(true);

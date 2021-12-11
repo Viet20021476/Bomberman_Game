@@ -13,7 +13,6 @@ import mygame.KeyHandle;
 
 public class Player extends Entity {
 
-    GamePanel gamePanel;
     KeyHandle keyHandler;
 
     public final int screenX;

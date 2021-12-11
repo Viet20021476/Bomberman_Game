@@ -3,6 +3,8 @@ package tiles;
 import mygame.GamePanel;
 
 public abstract class PowerUp implements Tile {
+    private boolean used = false;
+    
     @Override
     public boolean isCollision() {
         return false;
@@ -13,8 +15,15 @@ public abstract class PowerUp implements Tile {
         return false;
     }
     
-    public void detectPlayer(GamePanel gamePanel) {
-        applyPower(gamePanel);
+    public void usePower(GamePanel gamePanel) {
+        if (!used) {
+            applyPower(gamePanel);
+        }
+        used = true;
+    }
+    
+    public boolean isUsed() {
+        return used;
     }
     
     public abstract void applyPower(GamePanel gamePanel);

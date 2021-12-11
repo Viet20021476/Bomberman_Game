@@ -165,13 +165,20 @@ public class GamePanel extends JPanel implements Runnable {
                         case 's':
                             tileMap[col][row] = new Brick("SPEED");
                             break;
+                        case 'x':
+                            tileMap[col][row] = new Brick("PORTAL");
+                            break;
                         case 'p':
                             entityManager.addEntity(player);
                             player.setX(col * TILESIZE);
                             player.setY(row * TILESIZE);
+                            tileMap[col][row] = new Grass();
+                            break;
                         case '1':
                             Balloom b = new Balloom(this, col * TILESIZE, row * TILESIZE);
                             entityManager.addEntity(b);
+                            tileMap[col][row] = new Grass();
+                            break;
                         default:
                             tileMap[col][row] = new Grass();
                     }
@@ -195,6 +202,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     public BombManager getBombManager() {
         return bombManager;
+    }
+    
+    public EntityManager getEntityManager() {
+        return entityManager;
     }
 
     public void drawTile(int x, int y, BufferedImage image, Graphics2D g2) {
@@ -251,5 +262,9 @@ public class GamePanel extends JPanel implements Runnable {
 
     public Sound getSound() {
         return this.sound;
+    }
+    
+    public void goToNextLevel() {
+        System.out.println("next level");
     }
 }
