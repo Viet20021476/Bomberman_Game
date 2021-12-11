@@ -31,15 +31,20 @@ public class GamePanel extends JPanel implements Runnable {
     final int maxScreenCol = 16;
     final int maxScreenRow = 14;
     public final int screenWidth = TILESIZE * maxScreenCol;
-    public final int screenHeight = TILESIZE * maxScreenRow;
+    public final int screenHeight = TILESIZE * maxScreenRow - TILESIZE;
 
     // LARGE MAP SETTINGS
     public final int maxMapCol = 31;
     public final int maxMapRow = 14;
     public final int mapWidth = TILESIZE * maxMapCol;
-    public final int mapHeight = TILESIZE * maxMapRow;
+    public final int mapHeight = TILESIZE * maxMapRow - TILESIZE;
     public final int newScreenWidth = TILESIZE * maxMapCol;
     public final int newScreenHeight = TILESIZE * maxMapRow;
+
+    // GAME STATE
+    public int gameState;
+    public final int titleState = 0;
+    public final int playState = 1;
 
     //FPS
     int FPS = 60;
@@ -47,14 +52,17 @@ public class GamePanel extends JPanel implements Runnable {
     public KeyHandle keyHandle = new KeyHandle(this);
     Thread gameThread;
     public Player player = new Player(this, keyHandle);
+    private ScreenState screenState = new ScreenState(this);
     private EntityManager entityManager = new EntityManager(this);
     private TileManager tileManager = new TileManager(this);
     private BombManager bombManager = new BombManager(this);
     public CollisionDetect collisionDetect = new CollisionDetect(this);
     private Scroller scroller = new Scroller(this);
+    private Sound sound = new Sound();
 
     public void setupGame() {
-
+        gameState = titleState;
+        playMusic(0);
     }
 
     public GamePanel() {
@@ -110,10 +118,14 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        scroller.updateOffset();
-        tileManager.draw(g2);
-        bombManager.draw(g2, this);
-        entityManager.draw(g2);
+        if (gameState == titleState) {
+            screenState.draw(g2);
+        } else {
+            scroller.updateOffset();
+            tileManager.draw(g2);
+            bombManager.draw(g2, this);
+            entityManager.draw(g2);
+        }
         g2.dispose();
     }
 
@@ -220,5 +232,24 @@ public class GamePanel extends JPanel implements Runnable {
                 || x > screenWidth + TILESIZE
                 || y < -TILESIZE
                 || y > screenHeight + TILESIZE;
+    }
+
+    public void playSoundEffect(int i) {
+        sound.setSound(i);
+        sound.play();
+    }
+
+    public void playMusic(int i) {
+        sound.setSound(i);
+        sound.play();
+        sound.loop();
+    }
+
+    public ScreenState getScreenState() {
+        return this.screenState;
+    }
+
+    public Sound getSound() {
+        return this.sound;
     }
 }
