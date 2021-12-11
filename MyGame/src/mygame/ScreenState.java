@@ -18,6 +18,7 @@ public class ScreenState {
     Graphics2D g2;
     Font titleFont;
     Font menuFont;
+    Font loadingFont;
     int num = 0;
     int spriteNum = 0;
     int spriteCounter = 0;
@@ -26,15 +27,18 @@ public class ScreenState {
         this.gamePanel = gamePanel;
         InputStream inputStream1 = null;
         InputStream inputStream2 = null;
+        InputStream inputStream3 = null;
         try {
             inputStream1 = new BufferedInputStream(new FileInputStream("res/font/titleFont.ttf"));
             inputStream2 = new BufferedInputStream(new FileInputStream("res/font/menuFont.ttf"));
+            inputStream3 = new BufferedInputStream(new FileInputStream("res/font/loadingFont.ttf"));
         } catch (FileNotFoundException ex) {
             Logger.getLogger(ScreenState.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
             titleFont = Font.createFont(Font.TRUETYPE_FONT, inputStream1);
             menuFont = Font.createFont(Font.TRUETYPE_FONT, inputStream2);
+            loadingFont = Font.createFont(Font.TRUETYPE_FONT, inputStream3);
         } catch (FontFormatException | IOException ex) {
             Logger.getLogger(ScreenState.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -47,6 +51,8 @@ public class ScreenState {
 
         if (gamePanel.gameState == gamePanel.titleState) {
             drawTitleScreen();
+        } else if (gamePanel.gameState == gamePanel.loadingState) {
+            drawLoadingScreen();
         }
     }
 
@@ -100,5 +106,15 @@ public class ScreenState {
         if (num == 1) {
             g2.drawString(">", x4 - 40, y4);
         }
+    }
+
+    public void drawLoadingScreen() {
+        g2.setFont(loadingFont);
+        g2.setColor(Color.WHITE);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30));
+        String loadingText = "Stage 1";
+        int x = 310;
+        int y = 300;
+        g2.drawString(loadingText, x, y);
     }
 }
