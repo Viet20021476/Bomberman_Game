@@ -16,8 +16,10 @@ public class Sound {
     private String[] url = new String[15];
 
     public Sound() {
-        url[0] = "res/sound/title.wav";
+        url[0] = "res/sound/titleMusic.wav";
         url[1] = "res/sound/bombExplosionSound.wav";
+        url[2] = "res/sound/playingMusic.wav";
+        url[3] = "res/sound/loadingMusic.wav";
     }
 
     public void setSound(int i) {
@@ -31,13 +33,13 @@ public class Sound {
     }
 
     public void play() {
-        clip.start(); 
+        clip.start();
     }
-    
+
     public void loop() {
         clip.loop(Clip.LOOP_CONTINUOUSLY);
     }
-    
+
     public void stop() {
         clip.stop();
     }
