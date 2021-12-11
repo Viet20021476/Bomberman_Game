@@ -44,7 +44,8 @@ public class GamePanel extends JPanel implements Runnable {
     // GAME STATE
     public int gameState;
     public final int titleState = 0;
-    public final int playState = 1;
+    public final int loadingState = 1;
+    public final int playState = 2;
 
     //FPS
     int FPS = 60;
@@ -118,7 +119,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        if (gameState == titleState) {
+        if (gameState == titleState || gameState == loadingState) {
             screenState.draw(g2);
         } else {
             scroller.updateOffset();
@@ -203,7 +204,7 @@ public class GamePanel extends JPanel implements Runnable {
     public BombManager getBombManager() {
         return bombManager;
     }
-    
+
     public EntityManager getEntityManager() {
         return entityManager;
     }
@@ -263,7 +264,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Sound getSound() {
         return this.sound;
     }
-    
+
     public void goToNextLevel() {
         System.out.println("next level");
     }
