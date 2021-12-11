@@ -2,6 +2,9 @@ package mygame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.Timer;
 
 public class KeyHandle implements KeyListener {
 
@@ -42,8 +45,18 @@ public class KeyHandle implements KeyListener {
 
             if (code == KeyEvent.VK_ENTER) {
                 if (gamePanel.getScreenState().num == 0) {
-                    gamePanel.gameState = gamePanel.playState;
+                    Timer timer
+                            = new Timer(3000, event -> {
+                                gamePanel.gameState = gamePanel.playState;
+                                gamePanel.getSound().stop();
+                                gamePanel.playMusic(2);
+                            });
+                    timer.setRepeats(false);
+                    timer.start();
+                    gamePanel.gameState = gamePanel.loadingState;
                     gamePanel.getSound().stop();
+                    gamePanel.playMusic(3);
+
                 } else if (gamePanel.getScreenState().num == 1) {
                     System.exit(0);
                 }
