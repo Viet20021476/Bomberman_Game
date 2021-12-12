@@ -3,7 +3,6 @@ package Entities;
 import java.awt.Rectangle;
 import java.util.Random;
 import mygame.GamePanel;
-import tiles.Tile;
 
 public class Balloom extends Enemy {
 

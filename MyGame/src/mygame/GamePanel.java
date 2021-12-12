@@ -2,6 +2,7 @@ package mygame;
 
 import Entities.Balloom;
 import Entities.EntityManager;
+import Entities.Oneal;
 import Entities.Player;
 import bomb.BombManager;
 import java.awt.Color;
@@ -181,6 +182,11 @@ public class GamePanel extends JPanel implements Runnable {
                         case '1':
                             Balloom b = new Balloom(this, col * TILESIZE, row * TILESIZE);
                             entityManager.addEntity(b);
+                            tileMap[col][row] = new Grass();
+                            break;
+                        case '2':
+                            Oneal o = new Oneal(this, col * TILESIZE, row * TILESIZE);
+                            entityManager.addEntity(o);
                             tileMap[col][row] = new Grass();
                             break;
                         default:

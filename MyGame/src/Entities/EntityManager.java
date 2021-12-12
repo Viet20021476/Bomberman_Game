@@ -149,6 +149,25 @@ public class EntityManager {
                     }
                 }
                 gamePanel.draw(e.getX(), e.getY(), bufferedImage, g2);
+            } else if (e instanceof Oneal) {
+                BufferedImage bufferedImage = null;
+                switch (e.direction) {
+                    case "up" -> {
+                        bufferedImage = enemyLeft[ONEAL][e.getSpriteNum()];
+                    }
+                    case "down" -> {
+                        bufferedImage = enemyRight[ONEAL][e.getSpriteNum()];
+                    }
+                    case "left" -> {
+                        bufferedImage = enemyLeft[ONEAL][e.getSpriteNum()];
+                    }
+                    case "right" -> {
+                        bufferedImage = enemyRight[ONEAL][e.getSpriteNum()];
+                    }
+                    default -> {
+                    }
+                }
+                gamePanel.draw(e.getX(), e.getY(), bufferedImage, g2);
             }
         }
     }
