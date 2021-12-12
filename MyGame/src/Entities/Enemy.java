@@ -9,7 +9,6 @@ public abstract class Enemy extends Entity {
     @Override
     public void update() {
         behavior();
-     
         collisionOn = false;
         gamePanel.collisionDetect.checkTile(this);
 
@@ -60,5 +59,6 @@ public abstract class Enemy extends Entity {
             }
             spriteCounter = 0;
         }
+        
     }
 }

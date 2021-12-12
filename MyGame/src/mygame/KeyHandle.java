@@ -2,8 +2,6 @@ package mygame;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.Timer;
 
 public class KeyHandle implements KeyListener {

@@ -14,7 +14,7 @@ import tiles.PowerUp;
 import tiles.Tile;
 
 public class EntityManager {
-    private ArrayList<Entity> entityList = new ArrayList<>();
+    public ArrayList<Entity> entityList = new ArrayList<>();
     private GamePanel gamePanel;
     
     public EntityManager(GamePanel gamePanel) {
@@ -149,7 +149,6 @@ public class EntityManager {
                     }
                 }
                 gamePanel.draw(e.getX(), e.getY(), bufferedImage, g2);
-                System.out.println(e.getX() + " " + e.getY());
             }
         }
     }

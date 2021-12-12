@@ -128,6 +128,7 @@ public class GamePanel extends JPanel implements Runnable {
             tileManager.draw(g2);
             bombManager.draw(g2, this);
             entityManager.draw(g2);
+            
         }
         g2.dispose();
     }
@@ -179,7 +180,6 @@ public class GamePanel extends JPanel implements Runnable {
                             break;
                         case '1':
                             Balloom b = new Balloom(this, col * TILESIZE, row * TILESIZE);
-                            System.out.println(col * TILESIZE + " " + row * TILESIZE);
                             entityManager.addEntity(b);
                             tileMap[col][row] = new Grass();
                             break;

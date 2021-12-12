@@ -6,7 +6,7 @@
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Entities/Balloom.java</file>
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Entities/EntityManager.java</file>
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Entities/Entity.java</file>
-            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/tiles/TileManager.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Entities/Enemy.java</file>
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/mygame/GamePanel.java</file>
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/tiles/PowerUp.java</file>
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/mygame/CollisionDetect.java</file>
@@ -14,6 +14,7 @@
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/Entities/Player.java</file>
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/bomb/BombManager.java</file>
             <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/tiles/Grass.java</file>
+            <file>file:/C:/Users/GIA%20BAO/Documents/GitHub/Bomberman_Game/MyGame/src/mygame/ScreenState.java</file>
         </group>
     </open-files>
 </project-private>
