@@ -30,10 +30,32 @@ public class EntityManager {
             enemyRight[BALLOOM][0] = ImageIO.read(new FileInputStream("res/enemies/balloom_right1.png"));
             enemyRight[BALLOOM][1] = ImageIO.read(new FileInputStream("res/enemies/balloom_right2.png"));
             enemyRight[BALLOOM][2] = ImageIO.read(new FileInputStream("res/enemies/balloom_right3.png"));
+            enemyLeft[ONEAL][0] = ImageIO.read(new FileInputStream("res/enemies/oneal_left1.png"));
+            enemyLeft[ONEAL][1] = ImageIO.read(new FileInputStream("res/enemies/oneal_left2.png"));
+            enemyLeft[ONEAL][2] = ImageIO.read(new FileInputStream("res/enemies/oneal_left3.png"));
+            enemyRight[ONEAL][0] = ImageIO.read(new FileInputStream("res/enemies/oneal_right1.png"));
+            enemyRight[ONEAL][1] = ImageIO.read(new FileInputStream("res/enemies/oneal_right2.png"));
+            enemyRight[ONEAL][2] = ImageIO.read(new FileInputStream("res/enemies/oneal_right3.png"));
             genericEnemyDead[0] = ImageIO.read(new FileInputStream("res/enemies/mob_dead1.png"));
             genericEnemyDead[1] = ImageIO.read(new FileInputStream("res/enemies/mob_dead2.png"));
             genericEnemyDead[2] = ImageIO.read(new FileInputStream("res/enemies/mob_dead3.png"));
             specificEnemyDead[BALLOOM] = ImageIO.read(new FileInputStream("res/enemies/balloom_dead.png"));
+            specificEnemyDead[ONEAL] = ImageIO.read(new FileInputStream("res/enemies/oneal_dead.png"));
+            playerUp[0] = ImageIO.read(new FileInputStream("res/player/player_up.png"));
+            playerUp[1] = ImageIO.read(new FileInputStream("res/player/player_up1.png"));
+            playerUp[2] = ImageIO.read(new FileInputStream("res/player/player_up2.png"));
+            playerDown[0] = ImageIO.read(new FileInputStream("res/player/player_down.png"));
+            playerDown[1] = ImageIO.read(new FileInputStream("res/player/player_down1.png"));
+            playerDown[2] = ImageIO.read(new FileInputStream("res/player/player_down2.png"));
+            playerLeft[0] = ImageIO.read(new FileInputStream("res/player/player_left.png"));
+            playerLeft[1] = ImageIO.read(new FileInputStream("res/player/player_left1.png"));
+            playerLeft[2] = ImageIO.read(new FileInputStream("res/player/player_left2.png"));
+            playerRight[0] = ImageIO.read(new FileInputStream("res/player/player_right.png"));
+            playerRight[1] = ImageIO.read(new FileInputStream("res/player/player_right1.png"));
+            playerRight[2] = ImageIO.read(new FileInputStream("res/player/player_right2.png"));
+            playerDead[0] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
+            playerDead[1] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
+            playerDead[2] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -68,18 +90,89 @@ public class EntityManager {
     
     public void draw (Graphics2D g2) {
         for (Entity e: entityList) {
-            e.draw(g2);
+            if (e instanceof Player) {
+                Player p = (Player) e;
+                BufferedImage bufferedImage = null;
+                switch (e.direction) {
+                    case "up" -> {
+                        bufferedImage = playerUp[e.getSpriteNum()];
+                    }
+                    case "down" -> {
+                        bufferedImage = playerDown[e.getSpriteNum()];
+                    }
+                    case "left" -> {
+                        bufferedImage = playerLeft[e.getSpriteNum()];
+                    }
+                    case "right" -> {
+                        bufferedImage = playerRight[e.getSpriteNum()];
+                    }
+                    default -> {
+                    }
+                }
+
+                int tempScreenX = p.screenX;
+                int tempScreenY = p.screenY;
+
+                if (p.screenX > p.solidArea.x) {
+                    tempScreenX = p.solidArea.x;
+                }
+
+                if (p.screenY > p.solidArea.y) {
+                    tempScreenY = p.solidArea.y;
+                }
+
+                if (gamePanel.screenWidth - p.screenX > gamePanel.mapWidth - p.getSolidArea().x) {
+                    tempScreenX = gamePanel.screenWidth - (gamePanel.mapWidth - p.getSolidArea().x);
+                }
+
+                if (gamePanel.screenHeight - gamePanel.player.screenY > gamePanel.mapHeight - p.getSolidArea().y) {
+                    tempScreenY = gamePanel.screenHeight - (gamePanel.mapHeight - p.getSolidArea().y);
+                }
+
+                g2.drawImage(bufferedImage, tempScreenX, tempScreenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+            } else if (e instanceof Balloom) {
+                BufferedImage bufferedImage = null;
+                switch (e.direction) {
+                    case "up" -> {
+                        bufferedImage = enemyLeft[BALLOOM][e.getSpriteNum()];
+                    }
+                    case "down" -> {
+                        bufferedImage = enemyRight[BALLOOM][e.getSpriteNum()];
+                    }
+                    case "left" -> {
+                        bufferedImage = enemyLeft[BALLOOM][e.getSpriteNum()];
+                    }
+                    case "right" -> {
+                        bufferedImage = enemyRight[BALLOOM][e.getSpriteNum()];
+                    }
+                    default -> {
+                    }
+                }
+                gamePanel.draw(e.getX(), e.getY(), bufferedImage, g2);
+                System.out.println(e.getX() + " " + e.getY());
+            }
         }
     }
     
     public boolean hasNoEnemy() {
-        return entityList.size() == 1 && entityList.get(0) instanceof Player;
+        return entityList.size() == 1 
+                && entityList.get(0) instanceof Player;
     }
     
-    protected BufferedImage[][] enemyLeft = new BufferedImage[2][3];
-    protected BufferedImage[][] enemyRight = new BufferedImage[2][3];
-    protected BufferedImage[] genericEnemyDead = new BufferedImage[3];
-    protected BufferedImage[] specificEnemyDead = new BufferedImage[2];
+    public BufferedImage[] getBufferedImagePlayerRight() {
+        return playerRight;
+    }
+    
+    private BufferedImage[][] enemyLeft = new BufferedImage[2][3];
+    private BufferedImage[][] enemyRight = new BufferedImage[2][3];
+    private BufferedImage[] genericEnemyDead = new BufferedImage[3];
+    private BufferedImage[] specificEnemyDead = new BufferedImage[2];
+    
+    private BufferedImage[] playerLeft = new BufferedImage[3];
+    private BufferedImage[] playerRight = new BufferedImage[3];
+    private BufferedImage[] playerUp = new BufferedImage[3];
+    private BufferedImage[] playerDown = new BufferedImage[3];
+    private BufferedImage[] playerDead = new BufferedImage[3];
     
     private final int BALLOOM = 0;
     private final int ONEAL = 1;

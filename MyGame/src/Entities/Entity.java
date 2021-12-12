@@ -1,8 +1,6 @@
 package Entities;
 
-import java.awt.Graphics2D;
 import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
 import mygame.GamePanel;
 import tiles.Tile;
 
@@ -16,9 +14,7 @@ public abstract class Entity {
     protected Rectangle solidArea;
     protected boolean collisionOn = false;
 
-    public abstract void update();
-
-    public abstract void draw(Graphics2D g2);
+    protected abstract void update();
 
     public String getDirection() {
         return direction;
@@ -72,15 +68,5 @@ public abstract class Entity {
 
     protected int getSpriteNum() {
         return spriteNum;
-    }
-
-    protected BufferedImage[] up = new BufferedImage[3];
-    protected BufferedImage[] down = new BufferedImage[3];
-    protected BufferedImage[] left = new BufferedImage[3];
-    protected BufferedImage[] right = new BufferedImage[3];
-    protected BufferedImage[] dead = new BufferedImage[4];
-
-    public BufferedImage[] getBufferedImageRight() {
-        return right;
     }
 }

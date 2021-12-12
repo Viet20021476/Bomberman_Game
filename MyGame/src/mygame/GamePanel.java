@@ -88,8 +88,10 @@ public class GamePanel extends JPanel implements Runnable {
 
             long currentTime = System.nanoTime();
 
-            //1.Update: update information such as character positions
-            update();
+            if (this.gameState == playState) {
+                //1.Update: update information such as character positions
+                update();
+            }
 
             //2.Draw : draw the screen with the updated information
             repaint();
@@ -177,6 +179,7 @@ public class GamePanel extends JPanel implements Runnable {
                             break;
                         case '1':
                             Balloom b = new Balloom(this, col * TILESIZE, row * TILESIZE);
+                            System.out.println(col * TILESIZE + " " + row * TILESIZE);
                             entityManager.addEntity(b);
                             tileMap[col][row] = new Grass();
                             break;
@@ -217,24 +220,7 @@ public class GamePanel extends JPanel implements Runnable {
         int newX = x + scroller.getOffsetX();
         int newY = y + scroller.getOffsetY();
 
-        if (player.screenX > player.getSolidArea().x) {
-            newX = x;
-        }
-
-        if (player.screenY > player.getSolidArea().y) {
-            newY = y;
-        }
-
-        if (screenWidth - player.screenX > mapWidth - player.getSolidArea().x) {
-            newX = screenWidth - (mapWidth - x);
-        }
-
-        if (screenHeight - player.screenY > mapHeight - player.getSolidArea().y) {
-            newY = screenHeight - (mapHeight - y);
-        }
-
         if (!outOfBounds(newX, newY)) {
-
             g2.drawImage(image, newX, newY, TILESIZE, TILESIZE, null);
         }
     }

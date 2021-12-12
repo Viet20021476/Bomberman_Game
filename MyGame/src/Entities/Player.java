@@ -25,34 +25,11 @@ public class Player extends Entity {
         screenY = (gamePanel.screenHeight - 48) / 2;
         solidArea = new Rectangle(GamePanel.TILESIZE, GamePanel.TILESIZE, 36, 40);
         setDefaultValues();
-        getPlayerImage();
     }
 
     public void setDefaultValues() {
         speed = 2;
         direction = "down";
-    }
-
-    public void getPlayerImage() {
-        try {
-            up[0] = ImageIO.read(new FileInputStream("res/player/player_up.png"));
-            up[1] = ImageIO.read(new FileInputStream("res/player/player_up1.png"));
-            up[2] = ImageIO.read(new FileInputStream("res/player/player_up2.png"));
-            down[0] = ImageIO.read(new FileInputStream("res/player/player_down.png"));
-            down[1] = ImageIO.read(new FileInputStream("res/player/player_down1.png"));
-            down[2] = ImageIO.read(new FileInputStream("res/player/player_down2.png"));
-            left[0] = ImageIO.read(new FileInputStream("res/player/player_left.png"));
-            left[1] = ImageIO.read(new FileInputStream("res/player/player_left1.png"));
-            left[2] = ImageIO.read(new FileInputStream("res/player/player_left2.png"));
-            right[0] = ImageIO.read(new FileInputStream("res/player/player_right.png"));
-            right[1] = ImageIO.read(new FileInputStream("res/player/player_right1.png"));
-            right[2] = ImageIO.read(new FileInputStream("res/player/player_right2.png"));
-            dead[0] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
-            dead[1] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
-            dead[2] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
-        } catch (IOException ex) {
-            Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
 
     @Override
@@ -102,48 +79,6 @@ public class Player extends Entity {
             }
         }
 
-    }
-
-    @Override
-    public void draw(Graphics2D g2) {
-        BufferedImage bufferedImage = null;
-        switch (direction) {
-            case "up" -> {
-                bufferedImage = up[spriteNum];
-            }
-            case "down" -> {
-                bufferedImage = down[spriteNum];
-            }
-            case "left" -> {
-                bufferedImage = left[spriteNum];
-            }
-            case "right" -> {
-                bufferedImage = right[spriteNum];
-            }
-            default -> {
-            }
-        }
-
-        int tempScreenX = screenX;
-        int tempScreenY = screenY;
-
-        if (screenX > solidArea.x) {
-            tempScreenX = solidArea.x;
-        }
-
-        if (screenY > solidArea.y) {
-            tempScreenY = solidArea.y;
-        }
-
-        if (gamePanel.screenWidth - screenX > gamePanel.mapWidth - getSolidArea().x) {
-            tempScreenX = gamePanel.screenWidth - (gamePanel.mapWidth - getSolidArea().x);
-        }
-
-        if (gamePanel.screenHeight - gamePanel.player.screenY > gamePanel.mapHeight - getSolidArea().y) {
-            tempScreenY = gamePanel.screenHeight - (gamePanel.mapHeight - getSolidArea().y);
-        }
-
-        g2.drawImage(bufferedImage, tempScreenX, tempScreenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
     }
 
     public void increaseSpeed() {

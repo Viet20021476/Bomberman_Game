@@ -72,7 +72,7 @@ public class ScreenState {
         // BOMBER RUNNING
         int x5 = 350;
         int y5 = 350;
-        g2.drawImage(gamePanel.player.getBufferedImageRight()[spriteNum], x5, y5, 48, 48, null);
+        g2.drawImage(gamePanel.getEntityManager().getBufferedImagePlayerRight()[spriteNum], x5, y5, 48, 48, null);
         spriteCounter++;
         if (spriteCounter > 12) {
             switch (spriteNum) {
