@@ -29,20 +29,16 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int SCALE = 3;
     public static final int TILESIZE = ORIGINALTILESIZE * SCALE;
 
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 14;
     //public final int screenWidth = TILESIZE * maxScreenCol;
     //public final int screenHeight = TILESIZE * maxScreenRow - TILESIZE;
     public final int screenWidth = 768;
-    public final int screenHeight = 672;
+    public final int screenHeight = 624;
 
     // LARGE MAP SETTINGS
-    public final int maxMapCol = 31;
-    public final int maxMapRow = 14;
-    public final int mapWidth = TILESIZE * maxMapCol;
-    public final int mapHeight = TILESIZE * maxMapRow - TILESIZE;
-    public final int newScreenWidth = TILESIZE * maxMapCol;
-    public final int newScreenHeight = TILESIZE * maxMapRow;
+    public int maxMapCol;
+    public int maxMapRow;
+    public int mapWidth;
+    public int mapHeight;
 
     // GAME STATE
     public int gameState;
@@ -65,6 +61,8 @@ public class GamePanel extends JPanel implements Runnable {
     private Sound sound = new Sound();
 
     public void setupGame() {
+        tileManager.setHeight(maxMapRow);
+        tileManager.setWidth(maxMapCol);
         gameState = titleState;
         playMusic(0);
     }
@@ -131,7 +129,6 @@ public class GamePanel extends JPanel implements Runnable {
             tileManager.draw(g2);
             bombManager.draw(g2, this);
             entityManager.draw(g2);
-
         }
         g2.dispose();
     }
@@ -145,7 +142,12 @@ public class GamePanel extends JPanel implements Runnable {
             int row = 0;
 
             String s1 = readFile.nextLine();
-            var input = s1.split(" ");
+            String[] input = s1.split(" ");
+            maxMapRow = Integer.parseInt(input[1]);
+            maxMapCol = Integer.parseInt(input[2]);
+            mapWidth = TILESIZE * maxMapCol;
+            mapHeight = TILESIZE * maxMapRow;
+            //tileMap = new Tile[maxMapCol][maxMapRow];
             
             while (readFile.hasNextLine()) {
                 String s = readFile.nextLine();
@@ -160,6 +162,7 @@ public class GamePanel extends JPanel implements Runnable {
                     switch (s.charAt(i)) {
                         case ' ':
                             tileMap[col][row] = new Grass();
+                            System.out.println("y");
                             break;
                         case '#':
                             tileMap[col][row] = new Wall();
@@ -234,7 +237,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         if (!outOfBounds(newX, newY)) {
             g2.drawImage(image, newX, newY, TILESIZE, TILESIZE, null);
-        }
+            //System.out.println(newX + " " + newY);
+        } 
     }
 
     private boolean outOfBounds(int x, int y) {

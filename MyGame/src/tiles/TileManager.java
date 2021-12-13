@@ -2,12 +2,9 @@ package tiles;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -21,7 +18,6 @@ public class TileManager {
     private ArrayList<BufferedImage> imageList = new ArrayList<>();
     GamePanel gamePanel;
     private Tile[][] tileMap = new Tile[50][50];
-   
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -47,7 +43,7 @@ public class TileManager {
     }
 
     public void draw(Graphics2D g2) {
-        for (int i = 0; i < HEIGHT - 1; i++) {
+        for (int i = 0; i < HEIGHT; i++) {
             for (int j = 0; j < WIDTH; j++) {
                 int index = -1;
                 if (tileMap[j][i] instanceof Wall) {
@@ -115,6 +111,14 @@ public class TileManager {
         } else {
             return tileMap[x][y];
         }
+    }
+    
+    public void setWidth(int width) {
+        this.WIDTH = width;
+    }
+    
+    public void setHeight(int height) {
+        this.HEIGHT = height;
     }
 
     private final int GRASS = 0;
