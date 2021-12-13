@@ -31,8 +31,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     final int maxScreenCol = 16;
     final int maxScreenRow = 14;
-    public final int screenWidth = TILESIZE * maxScreenCol;
-    public final int screenHeight = TILESIZE * maxScreenRow - TILESIZE;
+    //public final int screenWidth = TILESIZE * maxScreenCol;
+    //public final int screenHeight = TILESIZE * maxScreenRow - TILESIZE;
+    public final int screenWidth = 768;
+    public final int screenHeight = 672;
 
     // LARGE MAP SETTINGS
     public final int maxMapCol = 31;
@@ -129,21 +131,25 @@ public class GamePanel extends JPanel implements Runnable {
             tileManager.draw(g2);
             bombManager.draw(g2, this);
             entityManager.draw(g2);
-            
+
         }
         g2.dispose();
     }
 
     public void loadTileMap(Tile[][] tileMap) {
         ArrayList<String> temp = new ArrayList<>();
-        File file = new File("res/maps/map_1.txt");
+        File file = new File("res/maps/map_2.txt");
         try {
             Scanner readFile = new Scanner(file);
             int col = 0;
             int row = 0;
+
+            String s1 = readFile.nextLine();
+            var input = s1.split(" ");
+            
             while (readFile.hasNextLine()) {
                 String s = readFile.nextLine();
-                while (s.length() < WIDTH) {
+                while (s.length() < Integer.parseInt(input[2])) {
                     s += " ";
                 }
                 temp.add(s);
