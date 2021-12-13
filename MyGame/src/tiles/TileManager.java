@@ -15,12 +15,13 @@ import mygame.GamePanel;
 
 public class TileManager {
 
-    private final int WIDTH = 31;
-    private final int HEIGHT = 14;
+    private int WIDTH;
+    private int HEIGHT;
 
     private ArrayList<BufferedImage> imageList = new ArrayList<>();
     GamePanel gamePanel;
-    private Tile[][] tileMap = new Tile[WIDTH][HEIGHT];
+    private Tile[][] tileMap = new Tile[50][50];
+   
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
