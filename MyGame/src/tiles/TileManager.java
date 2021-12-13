@@ -15,8 +15,8 @@ import mygame.GamePanel;
 
 public class TileManager {
 
-    private int WIDTH;
-    private int HEIGHT;
+    private int WIDTH = 29;
+    private int HEIGHT = 17;
 
     private ArrayList<BufferedImage> imageList = new ArrayList<>();
     GamePanel gamePanel;
