@@ -20,6 +20,8 @@ public class Sound {
         url[1] = "res/sound/bombExplosionSound.wav";
         url[2] = "res/sound/playingMusic.wav";
         url[3] = "res/sound/loadingMusic.wav";
+        url[4] = "res/sound/lifeLostMusic.wav";
+        url[5] = "res/sound/gameoverMusic.wav";
     }
 
     public void setSound(int i) {
@@ -42,6 +44,10 @@ public class Sound {
 
     public void stop() {
         clip.stop();
+    }
+
+    public Clip getClip() {
+        return clip;
     }
 
 }
