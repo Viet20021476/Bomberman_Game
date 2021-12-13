@@ -18,7 +18,7 @@ public class Balloom extends Enemy {
     }
 
     @Override
-    protected void behavior() {
+    protected void setDirection() {
         if (isInTileCenter()) {
             Random random = new Random();
             int j = random.nextInt(4) + 1;
@@ -41,10 +41,5 @@ public class Balloom extends Enemy {
                 }
             }
         }
-    }
-    
-    private boolean isInTileCenter() {
-        return getX() % 48 == 0
-                && getY() % 48 == 0;
     }
 }

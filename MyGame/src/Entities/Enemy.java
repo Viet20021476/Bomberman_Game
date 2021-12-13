@@ -4,42 +4,39 @@ public abstract class Enemy extends Entity {
     protected int targetX;
     protected int targetY;
     
-    protected abstract void behavior();
-    
     @Override
-    public void update() {
-        behavior();
+    public void setXY() {
         collisionOn = false;
-        gamePanel.collisionDetect.checkTile(this);
+        gamePanel.getCollisionDetect().checkTile(this);
 
         if (!collisionOn) {
             switch (direction) {
                 case "up" -> {
-                    if (solidArea.y - speed < targetY) {
-                        solidArea.y = targetY;
+                    if (getY() - speed < targetY) {
+                        setY(targetY);
                     } else {
-                        solidArea.y -= speed;
+                        setY(getY() - speed);
                     }
                 }
                 case "down" -> {
-                    if (solidArea.y + speed > targetY) {
-                        solidArea.y = targetY;
+                    if (getY() + speed > targetY) {
+                        setY(targetY);
                     } else {
-                        solidArea.y += speed;
+                        setY(getY() + speed);
                     }
                 }
                 case "left" -> {
-                    if (solidArea.x - speed < targetX) {
-                        solidArea.x = targetX;
+                    if (getX() - speed < targetX) {
+                        setX(targetX);
                     } else {
-                        solidArea.x -= speed;
+                        setX(getX() - speed);
                     }
                 }
                 case "right" -> {
-                    if (solidArea.x + speed > targetX) {
-                        solidArea.x = targetX;
+                    if (getX() + speed > targetX) {
+                        setX(targetX);
                     } else {
-                        solidArea.x += speed;
+                        setX(getX() + speed);
                     }
                 }
             }

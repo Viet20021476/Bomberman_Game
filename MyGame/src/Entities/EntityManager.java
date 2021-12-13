@@ -14,8 +14,9 @@ import tiles.PowerUp;
 import tiles.Tile;
 
 public class EntityManager {
-    public ArrayList<Entity> entityList = new ArrayList<>();
+    private ArrayList<Entity> entityList = new ArrayList<>();
     private GamePanel gamePanel;
+    private int playerIndex;
     
     public EntityManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
@@ -54,8 +55,8 @@ public class EntityManager {
             playerRight[1] = ImageIO.read(new FileInputStream("res/player/player_right1.png"));
             playerRight[2] = ImageIO.read(new FileInputStream("res/player/player_right2.png"));
             playerDead[0] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
-            playerDead[1] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
-            playerDead[2] = ImageIO.read(new FileInputStream("res/player/player_dead.png"));
+            playerDead[1] = ImageIO.read(new FileInputStream("res/player/player_dead1.png"));
+            playerDead[2] = ImageIO.read(new FileInputStream("res/player/player_dead2.png"));
         } catch (IOException ex) {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -68,29 +69,73 @@ public class EntityManager {
     public void update() {
         for (int i = 0; i < entityList.size(); i++) {
             Entity e = entityList.get(i);
-            e.update();
-            Tile tile = e.getCurrentTile();
-            try {
-                if (tile instanceof Grass) {
-                    Grass grass = (Grass) tile;
-                    if (grass.hasFlame()) {
-                        entityList.remove(i);
-                        i--;
+            if (!e.isDead()) {
+                e.setDirection();
+                e.setXY();
+                Tile tile = e.getCurrentTile();
+                try {
+                    if (tile instanceof Grass) {
+                        Grass grass = (Grass) tile;
+                        if (grass.hasFlame()) {
+                            if (e instanceof Player) {
+                                entityList.get(i).die(START_TIME_DEAD_1);
+                            } else {
+                                entityList.get(i).die(TIME_UNTIL_DEAD_ENDS);
+                            }
+                        }
                     }
+                    if (e instanceof Player && tile instanceof PowerUp) {
+                        PowerUp pow = (PowerUp) tile;
+                        pow.usePower(gamePanel);
+                    }
+                } catch (NullPointerException ex) {
+
                 }
-                if (e instanceof Player && tile instanceof PowerUp) {
-                    PowerUp pow = (PowerUp) tile;
-                    pow.usePower(gamePanel);
-                }
-            } catch (NullPointerException ex) {
-                
             }
         }
     }
     
     public void draw (Graphics2D g2) {
-        for (Entity e: entityList) {
-            if (e instanceof Player) {
+        for (int i = 0; i < entityList.size(); i++) {
+            Entity e = entityList.get(i);
+            if (e.isDead()) {
+                
+                BufferedImage image;
+                long remainingTime = e.getDeadTime() - System.nanoTime();
+                if (remainingTime > 0) {
+                    if (e instanceof Player) {
+                        if (remainingTime > START_TIME_DEAD_2) {
+                            image = playerDead[0];
+                        } else if (remainingTime > START_TIME_DEAD_3) {
+                            image = playerDead[1];
+                        } else {
+                            image = playerDead[2];
+                        }
+                    } else {
+                        if (remainingTime > START_TIME_DEAD_1) {
+                            if (e instanceof Balloom) {
+                                image = specificEnemyDead[BALLOOM];
+                            } else {
+                                image = specificEnemyDead[ONEAL];
+                                
+                            }
+                        } else if (remainingTime > START_TIME_DEAD_2) {
+                            image = genericEnemyDead[0];
+                        } else if (remainingTime > START_TIME_DEAD_3) {
+                            image = genericEnemyDead[1];
+                        } else {
+                            image = genericEnemyDead[2];
+                        }
+                    }
+                    gamePanel.draw(e.getX(), e.getY(), image, g2);
+                } else {
+                    if (i < playerIndex) {
+                        playerIndex--;
+                    }
+                    entityList.remove(i);
+                    i--;
+                }
+            } else if (e instanceof Player) {
                 Player p = (Player) e;
                 BufferedImage bufferedImage = null;
                 switch (e.direction) {
@@ -113,20 +158,24 @@ public class EntityManager {
                 int tempScreenX = p.screenX;
                 int tempScreenY = p.screenY;
 
-                if (p.screenX > p.solidArea.x) {
-                    tempScreenX = p.solidArea.x;
+                if (p.screenX > p.getX()) {
+                    tempScreenX = p.getX();
                 }
 
-                if (p.screenY > p.solidArea.y) {
-                    tempScreenY = p.solidArea.y;
+                if (p.screenY > p.getY()) {
+                    tempScreenY = p.getY();
                 }
 
-                if (gamePanel.screenWidth - p.screenX > gamePanel.mapWidth - p.getSolidArea().x) {
-                    tempScreenX = gamePanel.screenWidth - (gamePanel.mapWidth - p.getSolidArea().x);
+                if (gamePanel.getScreenWidth() - p.screenX 
+                        > gamePanel.getMapWidth() - p.getX()) {
+                    tempScreenX = gamePanel.getScreenWidth() 
+                            - (gamePanel.getMapWidth() - p.getX());
                 }
 
-                if (gamePanel.screenHeight - gamePanel.player.screenY > gamePanel.mapHeight - p.getSolidArea().y) {
-                    tempScreenY = gamePanel.screenHeight - (gamePanel.mapHeight - p.getSolidArea().y);
+                if (gamePanel.getScreenHeight() - gamePanel.getPlayer().screenY 
+                        > gamePanel.getMapHeight() - p.getY()) {
+                    tempScreenY = gamePanel.getScreenHeight() 
+                            - (gamePanel.getMapHeight() - p.getY());
                 }
 
                 g2.drawImage(bufferedImage, tempScreenX, tempScreenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
@@ -181,6 +230,15 @@ public class EntityManager {
         return playerRight;
     }
     
+    public void addPlayer(Player p) {
+        entityList.add(p);
+        playerIndex = entityList.size() - 1;
+    }
+    
+    public Player getPlayer() {
+        return (Player) entityList.get(playerIndex);
+    }
+    
     private BufferedImage[][] enemyLeft = new BufferedImage[2][3];
     private BufferedImage[][] enemyRight = new BufferedImage[2][3];
     private BufferedImage[] genericEnemyDead = new BufferedImage[3];
@@ -194,4 +252,9 @@ public class EntityManager {
     
     private final int BALLOOM = 0;
     private final int ONEAL = 1;
+    
+    private final long START_TIME_DEAD_1 = 300000000;
+    private final long START_TIME_DEAD_2 = 200000000;
+    private final long START_TIME_DEAD_3 = 100000000;
+    protected final long TIME_UNTIL_DEAD_ENDS = 1000000000;
 }

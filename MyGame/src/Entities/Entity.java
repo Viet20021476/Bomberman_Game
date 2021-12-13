@@ -13,8 +13,12 @@ public abstract class Entity {
     protected int spriteNum = 1;
     protected Rectangle solidArea;
     protected boolean collisionOn = false;
-
-    protected abstract void update();
+    private boolean isDead = false;
+    protected long deadTime;
+    
+    protected abstract void setDirection();
+    
+    protected abstract void setXY();
 
     public String getDirection() {
         return direction;
@@ -68,5 +72,23 @@ public abstract class Entity {
 
     protected int getSpriteNum() {
         return spriteNum;
+    }
+    
+    protected boolean isInTileCenter() {
+        return getX() % 48 == 0
+                && getY() % 48 == 0;
+    }
+    
+    protected void die(long timeUntilDead) {
+        isDead = true;
+        deadTime = System.nanoTime() + timeUntilDead;
+    }
+    
+    protected boolean isDead() {
+        return isDead;
+    }
+    
+    protected long getDeadTime() {
+        return deadTime;
     }
 }

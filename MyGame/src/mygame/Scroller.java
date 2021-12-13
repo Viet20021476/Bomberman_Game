@@ -11,25 +11,25 @@ public class Scroller {
     }
 
     public void updateOffset() {
-        offsetX = gamePanel.player.screenX - gamePanel.getPlayer().getSolidArea().x;
-        offsetY = gamePanel.player.screenY - gamePanel.getPlayer().getSolidArea().y;
+        offsetX = gamePanel.getPlayer().screenX - gamePanel.getPlayer().getX();
+        offsetY = gamePanel.getPlayer().screenY - gamePanel.getPlayer().getY();
         
-        if (gamePanel.player.screenX > gamePanel.player.getSolidArea().x) {
+        if (gamePanel.getPlayer().screenX > gamePanel.getPlayer().getX()) {
             offsetX = 0;
         }
 
-        if (gamePanel.player.screenY > gamePanel.player.getSolidArea().y) {
+        if (gamePanel.getPlayer().screenY > gamePanel.getPlayer().getY()) {
             offsetY = 0;
         }
 
-        if (gamePanel.screenWidth - gamePanel.player.screenX 
-                > gamePanel.mapWidth - gamePanel.player.getSolidArea().x) {
-            offsetX = gamePanel.screenWidth - gamePanel.mapWidth;
+        if (gamePanel.getScreenWidth() - gamePanel.getPlayer().screenX 
+                > gamePanel.getMapWidth() - gamePanel.getPlayer().getX()) {
+            offsetX = gamePanel.getScreenWidth() - gamePanel.getMapWidth();
         }
 
-        if (gamePanel.screenHeight - gamePanel.player.screenY > 
-                gamePanel.mapHeight - gamePanel.player.getSolidArea().y) {
-            offsetY = gamePanel.screenHeight - gamePanel.mapHeight;
+        if (gamePanel.getScreenHeight() - gamePanel.getPlayer().screenY > 
+                gamePanel.getMapHeight() - gamePanel.getPlayer().getY()) {
+            offsetY = gamePanel.getScreenHeight() - gamePanel.getMapHeight();
         }
     }
 

@@ -1,7 +1,6 @@
 package Entities;
 
 import java.awt.Rectangle;
-import java.util.Random;
 import mygame.GamePanel;
 
 public class Oneal extends Enemy {
@@ -18,7 +17,7 @@ public class Oneal extends Enemy {
     }
 
     @Override
-    protected void behavior() {
+    protected void setDirection() {
         if (isInTileCenter()) {
             int deltaX = gamePanel.getPlayer().getX() - getX();
             int deltaY = gamePanel.getPlayer().getY() - getY();
@@ -40,10 +39,5 @@ public class Oneal extends Enemy {
                 }
             }
         }
-    }
-    
-    private boolean isInTileCenter() {
-        return getX() % 48 == 0
-                && getY() % 48 == 0;
     }
 }

@@ -29,16 +29,14 @@ public class GamePanel extends JPanel implements Runnable {
     private static final int SCALE = 3;
     public static final int TILESIZE = ORIGINALTILESIZE * SCALE;
 
-    //public final int screenWidth = TILESIZE * maxScreenCol;
-    //public final int screenHeight = TILESIZE * maxScreenRow - TILESIZE;
-    public final int screenWidth = 768;
-    public final int screenHeight = 624;
+    private final int screenWidth = 768;
+    private final int screenHeight = 624;
 
     // LARGE MAP SETTINGS
-    public int maxMapCol;
-    public int maxMapRow;
-    public int mapWidth;
-    public int mapHeight;
+    private int maxMapCol;
+    private int maxMapRow;
+    private int mapWidth;
+    private int mapHeight;
 
     // GAME STATE
     public int gameState;
@@ -47,16 +45,15 @@ public class GamePanel extends JPanel implements Runnable {
     public final int playState = 2;
 
     //FPS
-    int FPS = 60;
+    private int FPS = 60;
 
-    public KeyHandle keyHandle = new KeyHandle(this);
-    Thread gameThread;
-    public Player player = new Player(this, keyHandle);
+    private KeyHandle keyHandle = new KeyHandle(this);
+    private Thread gameThread;
     private ScreenState screenState = new ScreenState(this);
     private EntityManager entityManager = new EntityManager(this);
     private TileManager tileManager = new TileManager(this);
     private BombManager bombManager = new BombManager(this);
-    public CollisionDetect collisionDetect = new CollisionDetect(this);
+    private CollisionDetect collisionDetect = new CollisionDetect(this);
     private Scroller scroller = new Scroller(this);
     private Sound sound = new Sound();
 
@@ -135,7 +132,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void loadTileMap(Tile[][] tileMap) {
         ArrayList<String> temp = new ArrayList<>();
-        File file = new File("res/maps/map_2.txt");
+        File file = new File("res/maps/map_1.txt");
         try {
             Scanner readFile = new Scanner(file);
             int col = 0;
@@ -147,7 +144,6 @@ public class GamePanel extends JPanel implements Runnable {
             maxMapCol = Integer.parseInt(input[2]);
             mapWidth = TILESIZE * maxMapCol;
             mapHeight = TILESIZE * maxMapRow;
-            //tileMap = new Tile[maxMapCol][maxMapRow];
             
             while (readFile.hasNextLine()) {
                 String s = readFile.nextLine();
@@ -162,7 +158,6 @@ public class GamePanel extends JPanel implements Runnable {
                     switch (s.charAt(i)) {
                         case ' ':
                             tileMap[col][row] = new Grass();
-                            System.out.println("y");
                             break;
                         case '#':
                             tileMap[col][row] = new Wall();
@@ -183,9 +178,8 @@ public class GamePanel extends JPanel implements Runnable {
                             tileMap[col][row] = new Brick("PORTAL");
                             break;
                         case 'p':
-                            entityManager.addEntity(player);
-                            player.setX(col * TILESIZE);
-                            player.setY(row * TILESIZE);
+                            Player p = new Player(this, col * TILESIZE, row * TILESIZE);
+                            entityManager.addPlayer(p);
                             tileMap[col][row] = new Grass();
                             break;
                         case '1':
@@ -212,7 +206,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public Player getPlayer() {
-        return player;
+        return entityManager.getPlayer();
+    }
+    
+    public KeyHandle getKeyHandle() {
+        return keyHandle;
     }
 
     public TileManager getTileManager() {
@@ -225,6 +223,26 @@ public class GamePanel extends JPanel implements Runnable {
 
     public EntityManager getEntityManager() {
         return entityManager;
+    }
+    
+    public CollisionDetect getCollisionDetect() {
+        return collisionDetect;
+    }
+    
+    public int getScreenWidth() {
+        return screenWidth;
+    }
+    
+    public int getScreenHeight() {
+        return screenHeight;
+    }
+    
+    public int getMapWidth() {
+        return mapWidth;
+    }
+    
+    public int getMapHeight() {
+        return mapHeight;
     }
 
     public void drawTile(int x, int y, BufferedImage image, Graphics2D g2) {

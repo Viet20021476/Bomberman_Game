@@ -75,4 +75,22 @@ public class CollisionDetect {
             
         }
     }
+    
+    public void checkEntity(Entity e1, Entity e2) {
+        
+        int leftX1 = e1.getX();
+        int rightX1 = e1.getX() + e1.getSolidArea().width;
+        int topY1 = e1.getY();
+        int bottomY1 = e1.getY() + e1.getSolidArea().height;
+        
+        int leftX2 = e2.getX();
+        int rightX2 = e2.getX() + e2.getSolidArea().width;
+        int topY2 = e2.getY();
+        int bottomY2 = e2.getY() + e2.getSolidArea().height;
+        
+        if (leftX1 < rightX2
+                && leftX2 < rightX1) {
+            
+        }
+    }
 }
