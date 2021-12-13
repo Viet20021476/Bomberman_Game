@@ -43,6 +43,8 @@ public class GamePanel extends JPanel implements Runnable {
     public final int titleState = 0;
     public final int loadingState = 1;
     public final int playState = 2;
+    public final int loseState = 3;
+    public int numOfPlayerLives = 3;
 
     //FPS
     private int FPS = 60;
@@ -119,7 +121,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        if (gameState == titleState || gameState == loadingState) {
+        if (gameState == titleState || gameState == loadingState || gameState == loseState) {
             screenState.draw(g2);
         } else {
             scroller.updateOffset();
@@ -144,7 +146,7 @@ public class GamePanel extends JPanel implements Runnable {
             maxMapCol = Integer.parseInt(input[2]);
             mapWidth = TILESIZE * maxMapCol;
             mapHeight = TILESIZE * maxMapRow;
-            
+
             while (readFile.hasNextLine()) {
                 String s = readFile.nextLine();
                 while (s.length() < Integer.parseInt(input[2])) {
@@ -208,7 +210,7 @@ public class GamePanel extends JPanel implements Runnable {
     public Player getPlayer() {
         return entityManager.getPlayer();
     }
-    
+
     public KeyHandle getKeyHandle() {
         return keyHandle;
     }
@@ -224,23 +226,23 @@ public class GamePanel extends JPanel implements Runnable {
     public EntityManager getEntityManager() {
         return entityManager;
     }
-    
+
     public CollisionDetect getCollisionDetect() {
         return collisionDetect;
     }
-    
+
     public int getScreenWidth() {
         return screenWidth;
     }
-    
+
     public int getScreenHeight() {
         return screenHeight;
     }
-    
+
     public int getMapWidth() {
         return mapWidth;
     }
-    
+
     public int getMapHeight() {
         return mapHeight;
     }
@@ -256,7 +258,7 @@ public class GamePanel extends JPanel implements Runnable {
         if (!outOfBounds(newX, newY)) {
             g2.drawImage(image, newX, newY, TILESIZE, TILESIZE, null);
             //System.out.println(newX + " " + newY);
-        } 
+        }
     }
 
     private boolean outOfBounds(int x, int y) {
@@ -288,4 +290,5 @@ public class GamePanel extends JPanel implements Runnable {
     public void goToNextLevel() {
         System.out.println("next level");
     }
+
 }
