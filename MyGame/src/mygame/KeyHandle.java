@@ -79,6 +79,14 @@ public class KeyHandle implements KeyListener {
                 gamePanel.getBombManager().addBomb();
             }
         }
+
+        if (gamePanel.gameState == gamePanel.loseState) {
+//            if (code == KeyEvent.VK_ENTER) {
+//                gamePanel.getSound().stop();
+//                gamePanel.playMusic(0);
+//                gamePanel.gameState = gamePanel.titleState; // DANG BI LOI
+//            }
+        }
     }
 
     @Override
