@@ -121,6 +121,12 @@ public class TileManager {
         this.HEIGHT = height;
     }
 
+    public Tile[][] getTileMap() {
+        return tileMap;
+    }
+    
+    
+
     private final int GRASS = 0;
     private final int WALL = 1;
     private final int BRICK = 2;
