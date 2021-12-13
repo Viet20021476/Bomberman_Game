@@ -8,21 +8,23 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
+import javax.swing.Timer;
 import mygame.GamePanel;
 import tiles.Grass;
 import tiles.PowerUp;
 import tiles.Tile;
 
 public class EntityManager {
+
     private ArrayList<Entity> entityList = new ArrayList<>();
     private GamePanel gamePanel;
     private int playerIndex;
-    
+
     public EntityManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         getImage();
     }
-    
+
     private void getImage() {
         try {
             enemyLeft[BALLOOM][0] = ImageIO.read(new FileInputStream("res/enemies/balloom_left1.png"));
@@ -61,11 +63,11 @@ public class EntityManager {
             Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     public void addEntity(Entity e) {
         entityList.add(e);
     }
-    
+
     public void update() {
         for (int i = 0; i < entityList.size(); i++) {
             Entity e = entityList.get(i);
@@ -94,22 +96,60 @@ public class EntityManager {
             }
         }
     }
-    
-    public void draw (Graphics2D g2) {
+
+    public void draw(Graphics2D g2) {
         for (int i = 0; i < entityList.size(); i++) {
             Entity e = entityList.get(i);
             if (e.isDead()) {
-                
+
                 BufferedImage image;
                 long remainingTime = e.getDeadTime() - System.nanoTime();
                 if (remainingTime > 0) {
                     if (e instanceof Player) {
                         if (remainingTime > START_TIME_DEAD_2) {
+                            gamePanel.getSound().stop();
                             image = playerDead[0];
                         } else if (remainingTime > START_TIME_DEAD_3) {
+                            gamePanel.getSound().stop();
                             image = playerDead[1];
                         } else {
+                            gamePanel.numOfPlayerLives--;
                             image = playerDead[2];
+                            if (gamePanel.numOfPlayerLives == 0) {
+                                gamePanel.getSound().stop();
+                                gamePanel.playMusic(4);
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                gamePanel.gameState = gamePanel.loseState;
+                                gamePanel.getSound().stop();
+                                gamePanel.playMusic(5);
+
+                            } else {
+                                Timer timer
+                                        = new Timer(6000, event -> {
+                                            gamePanel.gameState = gamePanel.playState;
+                                            gamePanel.getSound().stop();
+                                            gamePanel.playMusic(2);
+                                            entityList.clear();
+                                            gamePanel.loadTileMap(gamePanel.getTileManager().getTileMap());
+                                        });
+                                timer.setRepeats(false);
+                                timer.start();
+                                gamePanel.getSound().stop();
+                                gamePanel.playMusic(4);
+                                try {
+                                    Thread.sleep(3000);
+                                } catch (InterruptedException ex) {
+                                    Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                                gamePanel.gameState = gamePanel.loadingState;
+                                gamePanel.getSound().stop();
+                                gamePanel.playMusic(3);
+
+                            }
                         }
                     } else {
                         if (remainingTime > START_TIME_DEAD_1) {
@@ -117,7 +157,7 @@ public class EntityManager {
                                 image = specificEnemyDead[BALLOOM];
                             } else {
                                 image = specificEnemyDead[ONEAL];
-                                
+
                             }
                         } else if (remainingTime > START_TIME_DEAD_2) {
                             image = genericEnemyDead[0];
@@ -129,6 +169,7 @@ public class EntityManager {
                     }
                     gamePanel.draw(e.getX(), e.getY(), image, g2);
                 } else {
+                    gamePanel.getSound().stop();
                     if (i < playerIndex) {
                         playerIndex--;
                     }
@@ -166,15 +207,15 @@ public class EntityManager {
                     tempScreenY = p.getY();
                 }
 
-                if (gamePanel.getScreenWidth() - p.screenX 
+                if (gamePanel.getScreenWidth() - p.screenX
                         > gamePanel.getMapWidth() - p.getX()) {
-                    tempScreenX = gamePanel.getScreenWidth() 
+                    tempScreenX = gamePanel.getScreenWidth()
                             - (gamePanel.getMapWidth() - p.getX());
                 }
 
-                if (gamePanel.getScreenHeight() - gamePanel.getPlayer().screenY 
+                if (gamePanel.getScreenHeight() - gamePanel.getPlayer().screenY
                         > gamePanel.getMapHeight() - p.getY()) {
-                    tempScreenY = gamePanel.getScreenHeight() 
+                    tempScreenY = gamePanel.getScreenHeight()
                             - (gamePanel.getMapHeight() - p.getY());
                 }
 
@@ -220,39 +261,39 @@ public class EntityManager {
             }
         }
     }
-    
+
     public boolean hasNoEnemy() {
-        return entityList.size() == 1 
+        return entityList.size() == 1
                 && entityList.get(0) instanceof Player;
     }
-    
+
     public BufferedImage[] getBufferedImagePlayerRight() {
         return playerRight;
     }
-    
+
     public void addPlayer(Player p) {
         entityList.add(p);
         playerIndex = entityList.size() - 1;
     }
-    
+
     public Player getPlayer() {
         return (Player) entityList.get(playerIndex);
     }
-    
+
     private BufferedImage[][] enemyLeft = new BufferedImage[2][3];
     private BufferedImage[][] enemyRight = new BufferedImage[2][3];
     private BufferedImage[] genericEnemyDead = new BufferedImage[3];
     private BufferedImage[] specificEnemyDead = new BufferedImage[2];
-    
+
     private BufferedImage[] playerLeft = new BufferedImage[3];
     private BufferedImage[] playerRight = new BufferedImage[3];
     private BufferedImage[] playerUp = new BufferedImage[3];
     private BufferedImage[] playerDown = new BufferedImage[3];
     private BufferedImage[] playerDead = new BufferedImage[3];
-    
+
     private final int BALLOOM = 0;
     private final int ONEAL = 1;
-    
+
     private final long START_TIME_DEAD_1 = 300000000;
     private final long START_TIME_DEAD_2 = 200000000;
     private final long START_TIME_DEAD_3 = 100000000;
