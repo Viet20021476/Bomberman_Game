@@ -73,6 +73,40 @@ public class EntityManager {
             Entity e = entityList.get(i);
             if (!e.isDead()) {
                 e.setDirection();
+                for (int j = i + 1; j < entityList.size(); j++) {
+                    Entity e1 = entityList.get(i);
+                    Entity e2 = entityList.get(j);
+                    if (gamePanel.getCollisionDetect().checkEntity(e1, e2)) {
+                        if (i == playerIndex || j == playerIndex) {
+                            entityList.get(playerIndex).die(START_TIME_DEAD_1);
+                        } else {
+                            // doi huong
+                            Enemy[] enemy = new Enemy[2];
+                            enemy[0] = (Enemy) e1;
+                            enemy[1] = (Enemy) e2;
+                            for (int k = 0; k < 2; k++) {
+                                switch (enemy[k].getDirection()) {
+                                    case "up" -> {
+                                        enemy[k].setDirection("down");
+                                        enemy[k].setTargetY(enemy[k].getTargetY() + GamePanel.TILESIZE);
+                                    }
+                                    case "down" -> {
+                                        enemy[k].setDirection("up");
+                                        enemy[k].setTargetY(enemy[k].getTargetY() - GamePanel.TILESIZE);
+                                    }
+                                    case "left" -> {
+                                        enemy[k].setDirection("right");
+                                        enemy[k].setTargetX(enemy[k].getTargetX() + GamePanel.TILESIZE);
+                                    }
+                                    case "right" -> {
+                                        enemy[k].setDirection("left");
+                                        enemy[k].setTargetX(enemy[k].getTargetX() - GamePanel.TILESIZE);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
                 e.setXY();
                 Tile tile = e.getCurrentTile();
                 try {

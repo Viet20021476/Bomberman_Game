@@ -27,8 +27,7 @@ public class Player extends Entity {
 
     @Override
     protected void setDirection() {
-        if (keyHandler.upPressed == true || keyHandler.downPressed == true
-                || keyHandler.leftPressed == true || keyHandler.rightPressed == true) {
+        if (isMoving()) {
             if (keyHandler.upPressed == true) {
                 direction = "up";
             } else if (keyHandler.downPressed == true) {
@@ -43,8 +42,7 @@ public class Player extends Entity {
     
     @Override
     public void setXY() {
-        if (keyHandler.upPressed == true || keyHandler.downPressed == true
-                || keyHandler.leftPressed == true || keyHandler.rightPressed == true) {
+        if (isMoving()) {
             collisionOn = false;
             gamePanel.getCollisionDetect().checkTile(this);
 
@@ -78,6 +76,10 @@ public class Player extends Entity {
         }
     }
 
+    public boolean isMoving() {
+        return keyHandler.upPressed == true || keyHandler.downPressed == true
+                || keyHandler.leftPressed == true || keyHandler.rightPressed == true;
+    }
 
     public void increaseSpeed() {
         speed++;

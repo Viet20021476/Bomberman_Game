@@ -56,6 +56,21 @@ public abstract class Enemy extends Entity {
             }
             spriteCounter = 0;
         }
-        
+    }
+    
+    public int getTargetX() {
+        return targetX;
+    }
+    
+    public int getTargetY() {
+        return targetY;
+    }
+    
+    public void setTargetX(int targetX) {
+        this.targetX = targetX;
+    }
+    
+    public void setTargetY(int targetY) {
+        this.targetY = targetY;
     }
 }

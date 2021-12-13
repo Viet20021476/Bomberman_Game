@@ -1,6 +1,8 @@
 package mygame;
 
+import Entities.Enemy;
 import Entities.Entity;
+import Entities.Player;
 import tiles.Grass;
 import tiles.Tile;
 
@@ -76,21 +78,89 @@ public class CollisionDetect {
         }
     }
     
-    public void checkEntity(Entity e1, Entity e2) {
+    public boolean checkEntity(Entity e1, Entity e2) {
+        Entity e[] = new Entity[2];
+        e[0] = e1;
+        e[1] = e2;
+        int leftX[] = new int[2];
+        int rightX[] = new int[2];
+        int topY[] = new int[2];
+        int bottomY[] = new int[2];
         
-        int leftX1 = e1.getX();
-        int rightX1 = e1.getX() + e1.getSolidArea().width;
-        int topY1 = e1.getY();
-        int bottomY1 = e1.getY() + e1.getSolidArea().height;
+        leftX[0] = e1.getX();
+        topY[0] = e1.getY();
+         
+        leftX[1] = e2.getX();
+        topY[1] = e2.getY();
         
-        int leftX2 = e2.getX();
-        int rightX2 = e2.getX() + e2.getSolidArea().width;
-        int topY2 = e2.getY();
-        int bottomY2 = e2.getY() + e2.getSolidArea().height;
-        
-        if (leftX1 < rightX2
-                && leftX2 < rightX1) {
-            
+        for (int i = 0; i < 2; i++) {
+            if (e[i] instanceof Player) {
+                Player p = (Player) e[i];
+                if (p.isMoving()) {
+                    switch (p.getDirection()) {
+                        case "up" -> {
+                            topY[i] -= p.getSpeed();
+                        }
+                        case "down" -> {
+                            topY[i] += p.getSpeed();
+                        }
+                        case "left" -> {
+                            leftX[i] -= p.getSpeed();
+                        }
+                        case "right" -> {
+                            leftX[i] += p.getSpeed();
+                        }
+                    }
+                }
+            } else if (e[i] instanceof Enemy) {
+                Enemy enemy = (Enemy) e[i];
+                switch (e[i].getDirection()) {
+                    case "up" -> {
+                        if (topY[i] - enemy.getSpeed() < enemy.getTargetY()) {
+                            topY[i] = enemy.getTargetY();
+                        } else {
+                            topY[i] -= enemy.getSpeed();
+                        }
+                    }
+                    case "down" -> {
+                        if (topY[i] + enemy.getSpeed() < enemy.getTargetY()) {
+                            topY[i] = enemy.getTargetY();
+                        } else {
+                            topY[i] += enemy.getSpeed();
+                        }
+                    }
+                    case "left" -> {
+                        if (leftX[i] - enemy.getSpeed() < enemy.getTargetX()) {
+                            leftX[i] = enemy.getTargetX();
+                        } else {
+                            leftX[i] -= enemy.getSpeed();
+                        }
+                    }
+                    case "right" -> {
+                        if (leftX[i] + enemy.getSpeed() > enemy.getTargetX()) {
+                            leftX[i] = enemy.getTargetX();
+                        } else {
+                            leftX[i] += enemy.getSpeed();
+                        }
+                    }
+                }
+            }
         }
+        
+        rightX[0] = leftX[0] + e1.getSolidArea().width;
+        bottomY[0] = topY[0] + e1.getSolidArea().height;
+        
+        rightX[1] = leftX[1] + e2.getSolidArea().width;
+        bottomY[1] = topY[1] + e2.getSolidArea().height;
+        
+        System.out.println(leftX[0] + " " + leftX[1]);
+        System.out.println(rightX[0] + " " + rightX[1]);
+        System.out.println(topY[0] + " " + topY[1]);
+        System.out.println(bottomY[0] + " " + bottomY[1]);
+        
+        return leftX[0] < rightX[1]
+            && leftX[1] < rightX[0]
+            && topY[1] < bottomY[0]
+            && topY[0] < bottomY[1];
     }
 }
