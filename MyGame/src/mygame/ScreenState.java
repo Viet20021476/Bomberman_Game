@@ -53,7 +53,10 @@ public class ScreenState {
             drawTitleScreen();
         } else if (gamePanel.gameState == gamePanel.loadingState) {
             drawLoadingScreen();
+        } else if (gamePanel.gameState == gamePanel.loseState) {
+            drawGameoverScreen();
         }
+
     }
 
     public void drawTitleScreen() {
@@ -117,4 +120,22 @@ public class ScreenState {
         int y = 300;
         g2.drawString(loadingText, x, y);
     }
+
+    public void drawGameoverScreen() {
+        g2.setFont(loadingFont);
+        g2.setColor(Color.WHITE);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30));
+        String gameoverText = "GAME OVER";
+        int x = 270;
+        int y = 300;
+        g2.drawString(gameoverText, x, y);
+        String playAgainText = ">Press Enter to play again";
+        int x1 = 150;
+        int y1 = 400;
+
+        g2.setColor(Color.WHITE);
+        g2.drawString(playAgainText, x1, y1);
+
+    }
+
 }
