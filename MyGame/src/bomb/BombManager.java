@@ -15,19 +15,19 @@ import tiles.Grass;
 import tiles.Tile;
 
 public class BombManager {
-
+    
     private final int BOMB_CAP = 5;
-
+    
     private GamePanel gamePanel;
     private Queue<Bomb> bombArray = new ArrayDeque<>();
     private int bombCount = 1;
     private int range = 1;
-
+    
     public BombManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         getBombImage();
     }
-
+    
     private void getBombImage() {
         try {
             bomb_exploding[0] = ImageIO.read(new FileInputStream("res/bomb/bomb.png"));
@@ -58,21 +58,21 @@ public class BombManager {
             Logger.getLogger(Bomb.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-
+    
     public void increaseBombCount() {
         if (bombCount < BOMB_CAP) {
             bombCount++;
         }
     }
-
+    
     public void increaseRange() {
         range++;
     }
-
+    
     private int fitTilePosition(int coord) {
         return coord / GamePanel.TILESIZE;
     }
-
+    
     public void addBomb() {
         if (bombArray.size() < bombCount) {
             int x = fitTilePosition(gamePanel.getPlayer().getX());
@@ -82,7 +82,7 @@ public class BombManager {
             grass.setHasBomb(true);
         }
     }
-
+    
     public void draw(Graphics2D g2, GamePanel gamePanel) {
         for (Bomb bomb : bombArray) {
             drawBomb(g2, gamePanel, bomb);
@@ -95,10 +95,10 @@ public class BombManager {
                 bombArray.poll();
             }
         } catch (NullPointerException ex) {
-
+            
         }
     }
-
+    
     public void drawBomb(Graphics2D g2, GamePanel gamePanel, Bomb bomb) {
         BufferedImage image;
         long remainingTime = bomb.getExplosionTime() - System.nanoTime();
@@ -115,11 +115,10 @@ public class BombManager {
             } else if (remainingTime > START_TIME_EXPLOSION_2) {
                 image = bomb_exploded[1];
                 drawExplosion(1, g2, bomb);
-                gamePanel.playSoundEffect(1);
             } else {
                 image = bomb_exploded[2];
                 drawExplosion(2, g2, bomb);
-                gamePanel.playSoundEffect(1);
+                gamePanel.playBombSound(0);
             }
             gamePanel.drawTile(bomb.getX(), bomb.getY(), image, g2);
         } else {
@@ -127,7 +126,7 @@ public class BombManager {
             drawExplosion(3, g2, bomb);
         }
     }
-
+    
     private void drawExplosion(int number, Graphics2D g2, Bomb bomb) {
         BufferedImage mid_flame;
         BufferedImage end_flame;
@@ -203,18 +202,18 @@ public class BombManager {
             }
         }
     }
-
+    
     public int getRange() {
         return range;
     }
-
+    
     private final long START_TIME_BOMB_1 = 500000000;
     private final long START_TIME_BOMB_2 = 400000000;
     private final long START_TIME_EXPLOSION = 300000000;
     private final long START_TIME_EXPLOSION_1 = 200000000;
     private final long START_TIME_EXPLOSION_2 = 100000000;
     protected final long TIME_UNTIL_EXPLOSION_ENDS = 2000000000;
-
+    
     private BufferedImage bomb_exploding[] = new BufferedImage[4];
     private BufferedImage bomb_exploded[] = new BufferedImage[4];
     private BufferedImage explosion_horizontal[] = new BufferedImage[4];
