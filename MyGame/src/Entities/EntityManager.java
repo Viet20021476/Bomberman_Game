@@ -149,7 +149,7 @@ public class EntityManager {
                         } else {
                             gamePanel.numOfPlayerLives--;
                             image = playerDead[2];
-                            if (gamePanel.numOfPlayerLives == 0) {
+                            if (gamePanel.numOfPlayerLives < 0) {
                                 gamePanel.getSound().stop();
                                 gamePanel.playMusic(4);
                                 try {
@@ -169,6 +169,7 @@ public class EntityManager {
                                             gamePanel.playMusic(2);
                                             entityList.clear();
                                             gamePanel.loadTileMap(gamePanel.getTileManager().getTileMap());
+                                            gamePanel.getTimeAndScore().resetTime();
                                         });
                                 timer.setRepeats(false);
                                 timer.start();
@@ -189,9 +190,9 @@ public class EntityManager {
                         if (remainingTime > START_TIME_DEAD_1) {
                             if (e instanceof Balloom) {
                                 image = specificEnemyDead[BALLOOM];
+
                             } else {
                                 image = specificEnemyDead[ONEAL];
-
                             }
                         } else if (remainingTime > START_TIME_DEAD_2) {
                             image = genericEnemyDead[0];
@@ -203,11 +204,11 @@ public class EntityManager {
                     }
                     gamePanel.draw(e.getX(), e.getY(), image, g2);
                 } else {
-                    gamePanel.getSound().stop();
                     if (i < playerIndex) {
                         playerIndex--;
                     }
                     entityList.remove(i);
+                    gamePanel.getTimeAndScore().increaseScore(100);
                     i--;
                 }
             } else if (e instanceof Player) {
@@ -253,7 +254,7 @@ public class EntityManager {
                             - (gamePanel.getMapHeight() - p.getY());
                 }
 
-                g2.drawImage(bufferedImage, tempScreenX, tempScreenY, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
+                g2.drawImage(bufferedImage, tempScreenX, tempScreenY + 48, GamePanel.TILESIZE, GamePanel.TILESIZE, null);
             } else if (e instanceof Balloom) {
                 BufferedImage bufferedImage = null;
                 switch (e.direction) {
@@ -311,7 +312,12 @@ public class EntityManager {
     }
 
     public Player getPlayer() {
+
         return (Player) entityList.get(playerIndex);
+    }
+
+    public ArrayList<Entity> getEntityList() {
+        return entityList;
     }
 
     private BufferedImage[][] enemyLeft = new BufferedImage[2][3];
@@ -332,4 +338,9 @@ public class EntityManager {
     private final long START_TIME_DEAD_2 = 200000000;
     private final long START_TIME_DEAD_3 = 100000000;
     protected final long TIME_UNTIL_DEAD_ENDS = 1000000000;
+
+    public long getSTART_TIME_DEAD_1() {
+        return START_TIME_DEAD_1;
+    }
+
 }
