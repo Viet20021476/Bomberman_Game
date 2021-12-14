@@ -44,6 +44,11 @@ public class Sound {
 
     public void stop() {
         clip.stop();
+        clip.close();
+    }
+
+    public void stop1() {
+        clip.stop();
     }
 
     public Clip getClip() {
