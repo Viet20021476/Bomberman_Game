@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +18,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JPanel;
+import javax.swing.Timer;
 import tiles.Brick;
 import tiles.Grass;
 import tiles.Tile;
@@ -58,6 +60,9 @@ public class GamePanel extends JPanel implements Runnable {
     private CollisionDetect collisionDetect = new CollisionDetect(this);
     private Scroller scroller = new Scroller(this);
     private Sound sound = new Sound();
+    private BombSound bombSound = new BombSound();
+    private TimeAndScore timeAndScore = new TimeAndScore(this);
+    private Timer timer;
 
     public void setupGame() {
         tileManager.setHeight(maxMapRow);
@@ -72,6 +77,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.setDoubleBuffered(true);
         this.addKeyListener(keyHandle);
         this.setFocusable(true);
+        initializeTimer();
     }
 
     public void startGameThread() {
@@ -128,6 +134,8 @@ public class GamePanel extends JPanel implements Runnable {
             tileManager.draw(g2);
             bombManager.draw(g2, this);
             entityManager.draw(g2);
+            timeAndScore.draw(g2);
+            timer.start();
         }
         g2.dispose();
     }
@@ -145,7 +153,7 @@ public class GamePanel extends JPanel implements Runnable {
             maxMapRow = Integer.parseInt(input[1]);
             maxMapCol = Integer.parseInt(input[2]);
             mapWidth = TILESIZE * maxMapCol;
-            mapHeight = TILESIZE * maxMapRow;
+            mapHeight = TILESIZE * maxMapRow + 48;
 
             while (readFile.hasNextLine()) {
                 String s = readFile.nextLine();
@@ -256,9 +264,9 @@ public class GamePanel extends JPanel implements Runnable {
         int newY = y + scroller.getOffsetY();
 
         if (!outOfBounds(newX, newY)) {
-            g2.drawImage(image, newX, newY, TILESIZE, TILESIZE, null);
-            //System.out.println(newX + " " + newY);
+            g2.drawImage(image, newX, newY + 48, TILESIZE, TILESIZE, null);
         }
+
     }
 
     private boolean outOfBounds(int x, int y) {
@@ -279,6 +287,11 @@ public class GamePanel extends JPanel implements Runnable {
         sound.loop();
     }
 
+    public void playBombSound(int i) {
+        bombSound.setbombSound(i);
+        bombSound.play();
+    }
+
     public ScreenState getScreenState() {
         return this.screenState;
     }
@@ -287,8 +300,30 @@ public class GamePanel extends JPanel implements Runnable {
         return this.sound;
     }
 
+    public BombSound getBombSound() {
+        return bombSound;
+    }
+
     public void goToNextLevel() {
         System.out.println("next level");
+    }
+
+    public int getMaxMapCol() {
+        return maxMapCol;
+    }
+
+    public void initializeTimer() {
+        this.timer = new Timer(1000, (ActionEvent e) -> {
+            if (timeAndScore.countdown > 0) {
+                timeAndScore.countdown--;
+            } else {
+                getPlayer().die(entityManager.getSTART_TIME_DEAD_1());
+            }
+        });
+    }
+
+    public TimeAndScore getTimeAndScore() {
+        return timeAndScore;
     }
 
 }
