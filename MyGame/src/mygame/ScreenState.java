@@ -115,7 +115,7 @@ public class ScreenState {
         g2.setFont(loadingFont);
         g2.setColor(Color.WHITE);
         g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30));
-        String loadingText = "Stage 1";
+        String loadingText = "Stage " + gamePanel.getLevel();
         int x = 310;
         int y = 300;
         g2.drawString(loadingText, x, y);
@@ -124,14 +124,19 @@ public class ScreenState {
     public void drawGameoverScreen() {
         g2.setFont(loadingFont);
         g2.setColor(Color.WHITE);
-        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30));
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 80));
         String gameoverText = "GAME OVER";
-        int x = 270;
-        int y = 300;
+        int x = 120;
+        int y = 280;
         g2.drawString(gameoverText, x, y);
+        g2.setFont(g2.getFont().deriveFont(Font.PLAIN, 30));
+        String score = "Score " + gamePanel.getTimeAndScore().score;
+        int x2 = 300;
+        int y2 = 400;
+        g2.drawString(score, x2, y2);
         String playAgainText = ">Press Enter to play again";
         int x1 = 150;
-        int y1 = 400;
+        int y1 = 500;
 
         g2.setColor(Color.WHITE);
         g2.drawString(playAgainText, x1, y1);
