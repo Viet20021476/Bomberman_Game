@@ -42,18 +42,27 @@ public class KeyHandle implements KeyListener {
             }
 
             if (code == KeyEvent.VK_ENTER) {
+
                 if (gamePanel.getScreenState().num == 0) {
                     Timer timer
                             = new Timer(3000, event -> {
                                 gamePanel.gameState = gamePanel.playState;
                                 gamePanel.getSound().stop();
                                 gamePanel.playMusic(2);
+
                             });
                     timer.setRepeats(false);
                     timer.start();
                     gamePanel.gameState = gamePanel.loadingState;
                     gamePanel.getSound().stop();
                     gamePanel.playMusic(3);
+                    gamePanel.getTimer().stop();
+                    gamePanel.initializeTimer();
+                    gamePanel.getTimeAndScore().resetScore();
+                    gamePanel.getTimeAndScore().resetTime();
+                    gamePanel.resetLives();
+                    //gamePanel.loadTileMap();
+                    gamePanel.resetLevel();
                     gamePanel.loadLevel();
 
                 } else if (gamePanel.getScreenState().num == 1) {
@@ -82,11 +91,12 @@ public class KeyHandle implements KeyListener {
         }
 
         if (gamePanel.gameState == gamePanel.loseState) {
-//            if (code == KeyEvent.VK_ENTER) {
-//                gamePanel.getSound().stop();
-//                gamePanel.playMusic(0);
-//                gamePanel.gameState = gamePanel.titleState; // DANG BI LOI
-//            }
+            if (code == KeyEvent.VK_ENTER) {
+                gamePanel.getSound().stop();
+                gamePanel.playMusic(0);
+                gamePanel.gameState = gamePanel.titleState;
+                gamePanel.getEntityManager().getEntityList().clear();
+            }
         }
     }
 
