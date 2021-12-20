@@ -50,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //FPS
     private int FPS = 60;
-    
+
     private int level = 1;
 
     private KeyHandle keyHandle = new KeyHandle(this);
@@ -127,7 +127,8 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
-        if (gameState == titleState || gameState == loadingState || gameState == loseState) {
+        if (gameState == titleState || gameState == loadingState
+                || gameState == loseState) {
             screenState.draw(g2);
         } else {
             scroller.updateOffset();
@@ -163,7 +164,7 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 temp.add(s);
             }
-            
+
             tileMap = new Tile[maxMapCol][maxMapRow];
 
             for (String s : temp) {
@@ -216,7 +217,7 @@ public class GamePanel extends JPanel implements Runnable {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         return tileMap;
     }
 
@@ -311,8 +312,23 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void goToNextLevel() {
         level++;
+        Timer timer
+                = new Timer(3000, event -> {
+                    gameState = playState;
+                    getSound().stop();
+                    playMusic(2);
+                    loadLevel();
+                });
+        timer.setRepeats(false);
+        timer.start();
+        gameState = loadingState;
+        getSound().stop();
+        playMusic(3);
         entityManager.getEntityList().clear();
-        loadLevel();
+        getTimer().stop();
+        initializeTimer();
+        getTimeAndScore().resetTime();
+        resetLives();
     }
 
     public int getMaxMapCol() {
@@ -337,5 +353,21 @@ public class GamePanel extends JPanel implements Runnable {
         tileManager.setTileMap(loadTileMap());
         tileManager.setHeight(maxMapRow);
         tileManager.setWidth(maxMapCol);
+    }
+
+    public void resetLives() {
+        numOfPlayerLives = 3;
+    }
+
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public void resetLevel() {
+        level = 1;
     }
 }
