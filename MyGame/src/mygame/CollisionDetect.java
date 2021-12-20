@@ -17,7 +17,7 @@ public class CollisionDetect {
     public void checkTile(Entity entity) {
         int leftX = entity.getX();
         int rightX = entity.getX() + entity.getSolidArea().width;
-        int topY = entity.getY();
+        int topY = entity.getY() + 15;
         int bottomY = entity.getY() + entity.getSolidArea().height;
 
         int leftCol = leftX / GamePanel.TILESIZE;
