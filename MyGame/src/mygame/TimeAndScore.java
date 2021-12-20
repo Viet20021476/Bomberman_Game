@@ -49,6 +49,15 @@ public class TimeAndScore {
     public void resetTime() {
         countdown = 50;
     }
+    
+    public void resetTime1() {
+        countdown = 53;
+    }
+
+    public void resetScore() {
+        score = 0;
+    }
+    
 
     public void increaseScore(int num) {
         score += num;
