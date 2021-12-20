@@ -54,6 +54,7 @@ public class KeyHandle implements KeyListener {
                     gamePanel.gameState = gamePanel.loadingState;
                     gamePanel.getSound().stop();
                     gamePanel.playMusic(3);
+                    gamePanel.loadLevel();
 
                 } else if (gamePanel.getScreenState().num == 1) {
                     System.exit(0);

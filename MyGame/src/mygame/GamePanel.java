@@ -50,6 +50,8 @@ public class GamePanel extends JPanel implements Runnable {
 
     //FPS
     private int FPS = 60;
+    
+    private int level = 1;
 
     private KeyHandle keyHandle = new KeyHandle(this);
     private Thread gameThread;
@@ -65,8 +67,6 @@ public class GamePanel extends JPanel implements Runnable {
     private Timer timer;
 
     public void setupGame() {
-        tileManager.setHeight(maxMapRow);
-        tileManager.setWidth(maxMapCol);
         gameState = titleState;
         playMusic(0);
     }
@@ -140,9 +140,10 @@ public class GamePanel extends JPanel implements Runnable {
         g2.dispose();
     }
 
-    public void loadTileMap(Tile[][] tileMap) {
+    public Tile[][] loadTileMap() {
+        Tile[][] tileMap = null;
         ArrayList<String> temp = new ArrayList<>();
-        File file = new File("res/maps/map_1.txt");
+        File file = new File("res/maps/map_" + level + ".txt");
         try {
             Scanner readFile = new Scanner(file);
             int col = 0;
@@ -162,6 +163,8 @@ public class GamePanel extends JPanel implements Runnable {
                 }
                 temp.add(s);
             }
+            
+            tileMap = new Tile[maxMapCol][maxMapRow];
 
             for (String s : temp) {
                 for (int i = 0; i < s.length(); i++) {
@@ -213,6 +216,8 @@ public class GamePanel extends JPanel implements Runnable {
         } catch (FileNotFoundException ex) {
             Logger.getLogger(TileManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        return tileMap;
     }
 
     public Player getPlayer() {
@@ -305,7 +310,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void goToNextLevel() {
-        System.out.println("next level");
+        level++;
+        entityManager.getEntityList().clear();
+        loadLevel();
     }
 
     public int getMaxMapCol() {
@@ -326,4 +333,9 @@ public class GamePanel extends JPanel implements Runnable {
         return timeAndScore;
     }
 
+    public void loadLevel() {
+        tileManager.setTileMap(loadTileMap());
+        tileManager.setHeight(maxMapRow);
+        tileManager.setWidth(maxMapCol);
+    }
 }

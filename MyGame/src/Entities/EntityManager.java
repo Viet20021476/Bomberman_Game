@@ -168,7 +168,7 @@ public class EntityManager {
                                             gamePanel.getSound().stop();
                                             gamePanel.playMusic(2);
                                             entityList.clear();
-                                            gamePanel.loadTileMap(gamePanel.getTileManager().getTileMap());
+                                            gamePanel.loadTileMap();
                                             gamePanel.getTimeAndScore().resetTime();
                                         });
                                 timer.setRepeats(false);
@@ -181,6 +181,7 @@ public class EntityManager {
                                     Logger.getLogger(Player.class.getName()).log(Level.SEVERE, null, ex);
                                 }
                                 gamePanel.gameState = gamePanel.loadingState;
+                                gamePanel.loadLevel();
                                 gamePanel.getSound().stop();
                                 gamePanel.playMusic(3);
 

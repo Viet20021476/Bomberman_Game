@@ -83,7 +83,7 @@ public abstract class Entity {
                 && getY() % 48 == 0;
     }
     
-    protected void die(long timeUntilDead) {
+    public void die(long timeUntilDead) {
         isDead = true;
         deadTime = System.nanoTime() + timeUntilDead;
     }

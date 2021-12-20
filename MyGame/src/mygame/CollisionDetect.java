@@ -153,11 +153,6 @@ public class CollisionDetect {
         rightX[1] = leftX[1] + e2.getSolidArea().width;
         bottomY[1] = topY[1] + e2.getSolidArea().height;
         
-        System.out.println(leftX[0] + " " + leftX[1]);
-        System.out.println(rightX[0] + " " + rightX[1]);
-        System.out.println(topY[0] + " " + topY[1]);
-        System.out.println(bottomY[0] + " " + bottomY[1]);
-        
         return leftX[0] < rightX[1]
             && leftX[1] < rightX[0]
             && topY[1] < bottomY[0]

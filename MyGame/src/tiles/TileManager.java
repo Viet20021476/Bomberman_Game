@@ -17,12 +17,11 @@ public class TileManager {
 
     private ArrayList<BufferedImage> imageList = new ArrayList<>();
     GamePanel gamePanel;
-    private Tile[][] tileMap = new Tile[50][50];
+    private Tile[][] tileMap;
 
     public TileManager(GamePanel gamePanel) {
         this.gamePanel = gamePanel;
         getTileImage();
-        gamePanel.loadTileMap(tileMap);
     }
 
     private void getTileImage() {
@@ -123,6 +122,10 @@ public class TileManager {
 
     public Tile[][] getTileMap() {
         return tileMap;
+    }
+    
+    public void setTileMap(Tile[][] tileMap) {
+        this.tileMap = tileMap;
     }
     
     
