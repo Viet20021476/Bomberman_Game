@@ -21,7 +21,7 @@ public class Oneal extends Enemy {
         if (isInTileCenter()) {
             int deltaX = gamePanel.getPlayer().getX() - getX();
             int deltaY = gamePanel.getPlayer().getY() - getY();
-            if (Math.abs(deltaY) > Math.abs(deltaX)) {
+            if (Math.abs(deltaY) < Math.abs(deltaX)) {
                 if (deltaX > 0) {
                     direction = "right";
                     targetX = getX() + GamePanel.TILESIZE;
